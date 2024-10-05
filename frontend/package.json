@@ -1,0 +1,43 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/content": "^2.13.2",
+    "@nuxt/image": "^1.7.0",
+    "@nuxt/ui": "^2.18.4",
+    "@nuxtjs/date-fns": "^1.5.0",
+    "@nuxtjs/i18n": "^8.5.1",
+    "@nuxtjs/mdc": "^0.8.3",
+    "@pinia/nuxt": "^0.5.3",
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+    "@vueuse/core": "^11.0.1",
+    "date-fns": "^2.30.0",
+    "easymde": "^2.18.0",
+    "nuxt": "^3.12.4",
+    "nuxt-tiptap-editor": "^1.2.1",
+    "pinia": "^2.2.1",
+    "prismjs": "^1.29.0",
+    "simplemde": "^1.11.2",
+    "turndown": "^7.2.0",
+    "v-calendar": "^3.1.2",
+    "vditor": "^3.10.5",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@iconify-json/bx": "^1.1.11",
+    "@iconify-json/iconamoon": "^1.1.5",
+    "@iconify-json/ion": "^1.2.0",
+    "@iconify-json/material-symbols": "^1.1.88",
+    "@iconify-json/ph": "^1.1.14",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.1"
+  }
+}
