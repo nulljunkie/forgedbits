@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_extensions",
+    "drf_yasg",
     # "channels",
     # "debug_toolbar",
 
