@@ -114,7 +114,7 @@ export const useProfile = defineStore(
         }
 
         const res = await $fetch(`${API_URL}profile/upload/`, {
-          method: "post",
+          method: "patch",
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
           },

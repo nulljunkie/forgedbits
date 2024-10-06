@@ -1,5 +1,5 @@
 <template>
-  <div v-for="post in posts" :key="post.id">
+  <div v-for="post in props.posts" :key="post.id">
     <div class="border p-2 rounded-md bg-white shadow-sm">
       <div class="flex flex-row items-center justify-between">
         <UserTooltip
@@ -67,14 +67,16 @@
 import { useProfile } from "#imports";
 import { useAuth } from "#imports";
 import VoteView from "../vote/VoteView.vue";
-// import UserToolTip from "./UserToolTip.vue";
 import UserTooltip from "../profile/UserTooltip.vue";
 import Bookmark from "./Bookmark.vue";
 
 const profile = useProfile();
 const auth = useAuth();
 
-const { data: posts } = await useFetch("http://127.0.0.1:8000/api/posts/", {
-  headers: auth.user ? { Authorization: `Bearer ${auth.accessToken}` } : {},
+const props = defineProps({
+  posts: {
+    type: Array,
+    required: true,
+  },
 });
 </script>

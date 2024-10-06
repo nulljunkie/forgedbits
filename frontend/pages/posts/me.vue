@@ -38,39 +38,6 @@ const postStore = usePost();
 
 await postStore.getMyPosts();
 
-// const auth = useAuth();
-// const posts = ref([]);
-
-// const { error } = await useFetch("http://127.0.0.1:8000/api/posts/me/", {
-//   headers: {
-//     Authorization: `Bearer ${auth.accessToken}`,
-//   },
-//   onResponse: ({ response }) => {
-//     console.log(response);
-//     posts.value = response._data;
-//   },
-// });
-
-// console.log("posts: ", posts);
-//
-// const deletePost = async (post) => {
-//   try {
-//     const res = await $fetch(
-//       `http://127.0.0.1:8000/api/posts/post/${post.id}`,
-//       {
-//         method: "delete",
-//         headers: {
-//           Authorization: `Bearer ${auth.accessToken}`,
-//         },
-//       },
-//     );
-//     const index = posts.value.indexOf(post);
-//     posts.value.splice(index, 1);
-//   } catch (err) {
-//     console.error("failed to delete post: ", err);
-//   }
-// };
-
 definePageMeta({
   layout: "basic",
 });

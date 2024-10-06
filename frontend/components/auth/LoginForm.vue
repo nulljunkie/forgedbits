@@ -81,6 +81,7 @@
           <span>{{ buttonText }}</span>
         </button>
       </form>
+      <AuthSocialAuth />
     </div>
   </div>
 </template>

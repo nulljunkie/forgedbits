@@ -1,9 +1,3 @@
-<script setup>
-definePageMeta({
-  layout: "basic",
-});
-</script>
-
 <template>
   <div class="border p-2 rounded-md bg-white shadow-sm mb-4">
     <div class="flex flex-row items-center justify-between">

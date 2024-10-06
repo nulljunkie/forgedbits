@@ -33,11 +33,13 @@
     "vue": "latest"
   },
   "devDependencies": {
+    "@iconify-json/bi": "^1.2.0",
     "@iconify-json/bx": "^1.1.11",
     "@iconify-json/iconamoon": "^1.1.5",
     "@iconify-json/ion": "^1.2.0",
     "@iconify-json/material-symbols": "^1.1.88",
     "@iconify-json/ph": "^1.1.14",
+    "@iconify-json/simple-icons": "^1.2.5",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1"
   }
 }

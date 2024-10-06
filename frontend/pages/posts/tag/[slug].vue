@@ -1,23 +1,19 @@
 <template>
   <div>
-    <div
-      v-if="pending"
-      class="flex h-screen items-center justify-center text-gray-700 text-7xl font-bold"
-    >
-      Loading...
-    </div>
+    <ul v-if="pending" class="">
+      <li v-for="i in 5" :key="i.id">
+        <PostListItemSkeleton />
+      </li>
+    </ul>
     <div
       v-else-if="!posts.length"
-      class="flex h-screen items-center justify-center text-gray-700 text-7xl font-bold"
+      class="flex h-48 bg-white items-center justify-center text-gray-700 text-4xl font-bold px-8 text-center"
     >
       there are no post with this tag
     </div>
 
-    <div v-else>
-      <div v-for="post in posts" class="p-4 mb-4 bg-white rounded-md shadow-md">
-        <div>{{ post.title }}</div>
-        <div>by {{ post.author_details.username }}</div>
-      </div>
+    <div v-else class="space-y-2">
+      <PostList :posts="posts" />
     </div>
   </div>
 </template>
