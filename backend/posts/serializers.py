@@ -81,7 +81,6 @@ class PostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
 
         tags_data = json.loads(self.initial_data.get('tags', []))
-        print('tags: ', tags_data)
         validated_data.pop('tags', None)  # Pop tags to prevent duplication in Post creation
 
         post = Post.objects.create(**validated_data)
@@ -90,6 +89,12 @@ class PostSerializer(serializers.ModelSerializer):
         for tag in tags_data:
             # tag_instance, created = Tag.objects.get_or_create(id=tag.get('id'), defaults={'name': tag['name']})
             tag_instance, created = Tag.objects.get_or_create(name=tag)
+            tag_instance.posts_count += 1
+            tag_instance.save()
+            # print(tag_instance.name, f'[{tag_instance.posts_count}]')
+            # if (created):
+            #     print(tag_instance, 'created')
+
             tag_instances.append(tag_instance)
 
         post.tags.set(tag_instances)

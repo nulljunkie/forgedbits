@@ -81,13 +81,9 @@ class PostListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class TagsView(APIView):
-
-    def get(self, request):
-        tags = Tag.objects.all()
-        serializer = TagSerializer(tags, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+class TagsView(generics.ListAPIView):
+    queryset = Tag.objects.all()[:10]
+    serializer_class = TagSerializer
 
 class SearchView(APIView):
 

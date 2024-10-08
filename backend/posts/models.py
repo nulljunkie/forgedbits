@@ -5,9 +5,13 @@ from django.urls import reverse
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
+    posts_count = models.IntegerField(default=0)
     
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-posts_count']
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

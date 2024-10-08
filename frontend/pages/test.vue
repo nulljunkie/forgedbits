@@ -14,6 +14,10 @@
         {{ notification.notification }}
       </li>
     </transition-group>
+
+    <button class="bg-blue-500 rounded-md px-4 py-2 text-white">
+      Change user
+    </button>
   </div>
 </template>
 
@@ -21,6 +25,7 @@
 import { useAuth } from "#imports";
 
 const auth = useAuth();
+
 const notifications = ref([]);
 
 const socket = new WebSocket(

@@ -33,11 +33,17 @@
                 class="text-gray-400 group-hover:text-gray-500"
               />
               <p class="group-hover:text-gray-800">
-                {{ tag.name }}
+                {{ tag.name }} ({{ tag.posts_count }})
               </p>
             </span>
           </NuxtLink>
         </div>
+
+        <NuxtLink
+          to="/all-tags"
+          class="bg-bg_primary text-blue-500 hover:text-blue-600 hover:underline"
+          >see all tags</NuxtLink
+        >
       </div>
     </div>
   </div>
