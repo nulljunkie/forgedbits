@@ -2,14 +2,12 @@
   <div class="bg-bg_primary">
     <NuxtLoadingIndicator color="#ff0000" height="5" />
     <NuxtRouteAnnouncer />
-    <Navbar />
+    <navbar />
     <div
       class="flex flex-row gap-4 min-h-screen max-w-[1200px] mx-auto mt-8 px-4"
     >
       <div class="hidden md:block">
-        <div class="sticky top-20 p-2 shadow-md rounded-md bg-white">
-          <SideBar />
-        </div>
+        <navleft />
       </div>
       <div class="w-full">
         <slot />
@@ -22,7 +20,7 @@
 
 <script setup>
 import Footer from "../components/ui/Footer.vue";
-import Navbar from "../components/ui/Navbar.vue";
-import SideBar from "../components/ui/SideBar.vue";
+import navbar from "@/components/ui/nav/navbar.vue";
+import navleft from "@/components/ui/aside/navleft.vue";
 import UsersBar from "../components/ui/UsersBar.vue";
 </script>

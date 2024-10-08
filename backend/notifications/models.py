@@ -1,20 +1,13 @@
-from typing import override
-
 from django.db import models
+from users.models import User
 
 
-class Item(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    @override
     def __str__(self):
-        return self.name
+        return f"Notification for {self.user.username}: {self.message}"
 
-
-class Order(models.Model):
-    quantity = models.IntegerField()
-    price_per_item = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def calculate_total(self):
-        return self.quantity * self.price_per_item * .9

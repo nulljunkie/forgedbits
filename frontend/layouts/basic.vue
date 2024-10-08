@@ -2,7 +2,7 @@
   <div class="bg-bg_primary">
     <NuxtLoadingIndicator color="#ff0000" height="5" />
     <NuxtRouteAnnouncer />
-    <Navbar />
+    <navbar />
     <div class="min-h-screen max-w-[980px] mx-auto">
       <slot />
     </div>
@@ -17,5 +17,5 @@
 
 <script setup>
 import Footer from "../components/ui/Footer.vue";
-import Navbar from "../components/ui/Navbar.vue";
+import navbar from "@/components/ui/nav/navbar.vue";
 </script>

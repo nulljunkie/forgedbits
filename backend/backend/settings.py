@@ -32,20 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-
-    "rest_framework",
-    "rest_framework_simplejwt",
-    "corsheaders",
-    "django_extensions",
-    "drf_yasg",
-    # "channels",
-    # "debug_toolbar",
 
     "users",
     "posts",
@@ -54,6 +40,25 @@ INSTALLED_APPS = [
     "notifications",
     "chat",
     "settings",
+
+
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "corsheaders",
+    "django_extensions",
+    "drf_yasg",
+    "channels",
+    # "debug_toolbar",
+
+
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+
+
 
 ]
 
@@ -87,8 +92,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "backend.wsgi.application"
 ASGI_APPLICATION = 'backend.asgi.application' 
+WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -195,3 +200,18 @@ CORS_ALLOWED_ORIGINS = [
 
 MEDIA_DIR = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',
+#     },
+# }

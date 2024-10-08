@@ -10,24 +10,13 @@
 
         <Bookmark :saved="post.is_saved" :postId="post.id" />
       </div>
-      <div class="p-4">
+      <div class="px-4 py-2 text-gray-600">
         <NuxtLink :to="{ name: 'posts-post-id', params: { id: post.id } }">
-          <div class="text-2xl font-bold">{{ post.title }}</div>
-        </NuxtLink>
-        <div class="flex flex-row flex-wrap gap-2 p-2">
-          <div v-for="tag in post.tags" :key="tag.id">
-            <UButton
-              @click=""
-              icon="i-mingcute-hashtag-fill"
-              size="xm"
-              color="amber"
-              variant="ghost"
-              :label="tag.name"
-              :trailing="false"
-              class="hover:border hover-border-yellow-300"
-            />
+          <div class="text-2xl p-2 hover:text-gray-800 font-bold">
+            {{ post.title }}
           </div>
-        </div>
+        </NuxtLink>
+        <TagList :tags="post.tags" />
       </div>
 
       <div class="flex flex-row justify-between items-center">
@@ -39,24 +28,19 @@
           direction="row"
         />
 
-        <div class="flex flex-row mr-4 gap-8 items-center">
-          <UButton
-            icon="i-iconamoon-comment-dots"
-            size="xs"
-            color="primary"
-            square
-            variant="none"
-            :label="post.comments_count || '0'"
-          />
-          <UButton
-            icon="i-ph-eye"
-            size="xs"
-            color="primary"
-            square
-            disabled
-            variant="none"
-            :label="post.views_count || '0'"
-          />
+        <div
+          class="flex flex-row mr-4 gap-8 items-center text-gray-600 text-sm"
+        >
+          <CommentCount :count="post.comments_count" />
+          <div
+            class="flex items-center gap-1 hover:text-gray-800 bg-slate-100 rounded-full px-2 py-1"
+          >
+            <Icon name="ph-eye" size="20" />
+            <p v-if="post.views_count">
+              {{ post.views_count }}
+            </p>
+            <p v-else>0</p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,35 +1,55 @@
+<template>
+  <div
+    class="bg-white text-black flex flex-col h-screen items-center pt-28 gap-4"
+  >
+    <h1 class="text-blue-500 font-extrabold text-4xl">
+      testing notifiction websocket
+    </h1>
+    <transition-group name="list" tag="ul" class="space-y-4">
+      <li
+        class="bg-slate-100 rounded-md p-4 w-full text-center text-gray-700 text-lg"
+        v-for="notification in notifications"
+        :key="notification.id"
+      >
+        {{ notification.notification }}
+      </li>
+    </transition-group>
+  </div>
+</template>
+
 <script setup>
+import { useAuth } from "#imports";
+
+const auth = useAuth();
+const notifications = ref([]);
+
+const socket = new WebSocket(
+  `ws://localhost:8001/ws/notifications/?token=${auth.accessToken}`,
+);
+
+socket.onmessage = function (event) {
+  let data = JSON.parse(event.data);
+  notifications.value.push(data);
+  console.log(data.notification);
+};
+
+socket.onclose = function (event) {
+  console.log("WebSocket is closed now.");
+};
+
 definePageMeta({
   layout: "basic",
 });
 </script>
 
-<template>
-  <div class="border p-2 rounded-md bg-white shadow-sm mb-4">
-    <div class="flex flex-row items-center justify-between">
-      <USkeleton class="h-6 w-24" :ui="{ rounded: 'rounded' }" />
-      <USkeleton class="h-6 w-6 rounded-full" />
-    </div>
-
-    <div class="p-4">
-      <USkeleton class="h-8 w-full mb-2" :ui="{ rounded: 'rounded' }" />
-      <div class="flex flex-row flex-wrap gap-2 p-2">
-        <USkeleton class="h-6 w-12 rounded" />
-        <USkeleton class="h-6 w-16 rounded" />
-        <USkeleton class="h-6 w-10 rounded" />
-      </div>
-    </div>
-
-    <div class="flex flex-row justify-between items-center">
-      <div class="flex items-center gap-2">
-        <USkeleton class="h-6 w-6 rounded-full" />
-        <USkeleton class="h-6 w-10" />
-      </div>
-
-      <div class="flex flex-row mr-4 gap-8 items-center">
-        <USkeleton class="h-6 w-6 rounded-full" />
-        <USkeleton class="h-6 w-6 rounded-full" />
-      </div>
-    </div>
-  </div>
-</template>
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>

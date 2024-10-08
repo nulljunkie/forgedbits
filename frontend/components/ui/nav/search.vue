@@ -1,19 +1,17 @@
 <template>
   <div class="relative w-full max-w-md mx-auto">
-    <UInput
-      icon="i-heroicons-magnifying-glass-20-solid"
-      @input="submitSearchQuery"
-      v-model="query"
-      size="sm"
-      color="gray"
-      :trailing="false"
-      placeholder="Search..."
-      :ui="{
-        color: {
-          gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-        },
-      }"
-    />
+    <div
+      class="flex items-center border border-gray-500 text-gray-800 bg-stone-100 rounded-full px-2 h-10 gap-1"
+    >
+      <Icon name="bx:search" size="28" />
+
+      <input
+        @input="handleSearch"
+        v-model="query"
+        placeholder="Search..."
+        class="h-8 w-full bg-transparent focus:outline-none"
+      />
+    </div>
 
     <div
       v-if="query"
@@ -42,6 +40,12 @@
 const query = ref("");
 const showResults = ref(false);
 const results = ref([]);
+
+const handleSearch = () => {
+  setTimeout(async () => {
+    await submitSearchQuery();
+  }, 100);
+};
 
 const submitSearchQuery = async () => {
   if (query.value.trim() === "") {

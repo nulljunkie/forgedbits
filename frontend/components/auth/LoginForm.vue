@@ -31,29 +31,28 @@
       </transition>
 
       <form class="mt-6 flex flex-col gap-4" @submit.prevent="handleSubmit">
-        <label for="username">
+        <label for="username" class="text-gray-700">
           Username
           <span class="text-red-500">*</span> <br />
           <input
             id="username"
             v-model="username"
-            class="flex items-center flex-1 border rounded-lg w-full p-3 px-4 bg-white"
+            class="flex items-center flex-1 border border-gray-400 rounded-lg w-full p-3 px-4 text-gray-700 bg-white"
             placeholder="username"
             autocomplete="username"
             type="text"
             required
           />
         </label>
-        <label for="password">
+        <label for="password" class="text-gray-700">
           Password
           <span class="text-red-500">*</span> <br />
-
           <div class="relative flex items-center w-full">
             <input
               :type="showPassword ? 'text' : 'password'"
               v-model="password"
               @input="handleInputChanged"
-              class="flex items-center flex-1 border rounded-lg w-full p-3 px-4 bg-white"
+              class="flex items-center flex-1 border border-gray-400 rounded-lg w-full p-3 px-4 text-gray-700 bg-white"
               placeholder="********"
               autocomplete="autocomplete"
               required="true"
@@ -75,7 +74,7 @@
           </div>
         </label>
         <button
-          class="flex items-center justify-center gap-4 mt-4 text-lg text-white font-bold bg-gray-700 p-3 rounded-lg active:ring-2 active:ring-gray-700"
+          class="flex items-center justify-center gap-4 mt-4 text-lg text-white font-bold bg-gray-800 p-3 rounded-lg active:ring-2 active:ring-gray-800"
         >
           <!-- <LoadingIcon v-if="isPending" stroke="4" size="16" color="#fff" /> -->
           <span>{{ buttonText }}</span>
