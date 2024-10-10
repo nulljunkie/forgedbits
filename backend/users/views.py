@@ -1,5 +1,7 @@
+import requests
+from django.conf import settings
 from posts.models import Post
-from rest_framework import generics, mixins, status
+from rest_framework import generics, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -9,8 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .exceptions import WeakPasswordError
 from .models import Profile, User
-from .serializers import (ProfileGlimpsSerializer, ProfileSerializer,
-                          UserInfoSerializer)
+from .serializers import ProfileGlimpsSerializer, ProfileSerializer
 
 
 # todo: most of the work done here should be in serializers.py
@@ -202,12 +203,10 @@ class UserListAPIView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        print(queryset)
 
         user = request.user
         if user.is_authenticated:
             queryset = queryset.exclude(user=user)
-            print(queryset)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -216,3 +215,52 @@ class UserListAPIView(generics.ListAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class GithubLoginAPIView(APIView):
+
+    def get(self, request):
+        client_id = settings.GITHUB_CLIENT_ID
+        redirect_uri = settings.GITHUB_REDIRECT_URI
+        return Response({'oauth_url': f'https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}'})
+
+
+class GithubAuthView(APIView):
+
+    def post(self, request):
+        code = request.data.get('code')
+        client_id = settings.GITHUB_CLIENT_ID
+        client_secret = settings.GITHUB_CLIENT_SECRET
+
+        print(client_id)
+        print(client_secret)
+        print(code)
+
+        token_response = requests.post('https://github.com/login/oauth/access_token', data={
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'code': code
+        }, headers={'Accept': 'application/json'})
+
+        token_json = token_response.json()
+        access_token = token_json.get('access_token')
+
+        user_info_response = requests.get('https://api.github.com/user', headers={
+            'Authorization': f'token {access_token}'
+        })
+        
+        user_info = user_info_response.json()
+        username = user_info.get('login')
+
+        if username: 
+            user, created = User.objects.get_or_create(username=username)
+
+        refresh = RefreshToken.for_user(user)
+        return Response(
+            {
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+                "username": user.username,
+            },
+            status=status.HTTP_202_ACCEPTED,
+        )

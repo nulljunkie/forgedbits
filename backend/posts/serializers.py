@@ -87,14 +87,9 @@ class PostSerializer(serializers.ModelSerializer):
 
         tag_instances = []
         for tag in tags_data:
-            # tag_instance, created = Tag.objects.get_or_create(id=tag.get('id'), defaults={'name': tag['name']})
             tag_instance, created = Tag.objects.get_or_create(name=tag)
             tag_instance.posts_count += 1
             tag_instance.save()
-            # print(tag_instance.name, f'[{tag_instance.posts_count}]')
-            # if (created):
-            #     print(tag_instance, 'created')
-
             tag_instances.append(tag_instance)
 
         post.tags.set(tag_instances)
