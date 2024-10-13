@@ -55,6 +55,18 @@
                 @change="onAvatarSelected"
                 class="hidden"
               />
+              <ClientOnly>
+                <Teleport to="#profile-page">
+                  <ImageCropper
+                    v-if="avatarUrl"
+                    @sendBlob="uploadCroppedAvatar"
+                    @cancelCrop="avatarUrl = ''"
+                    :imageUrl="avatarUrl"
+                    cropWidth="280"
+                    cropHeigth="280"
+                  />
+                </Teleport>
+              </ClientOnly>
             </div>
           </label>
         </div>
@@ -65,13 +77,29 @@
 
 <script setup>
 import { useProfile } from "#imports";
+import ImageCropper from "@/utils/ImageCropper.vue";
 
 const profile = useProfile();
 
-const onAvatarSelected = async (event) => {
+const avatarUrl = ref("");
+
+const onAvatarSelected = (event) => {
   const file = event.target.files[0];
   if (file) {
-    await profile.uploadProfileImage(file, null);
+    avatarUrl.value = URL.createObjectURL(file);
+  }
+
+  // if (file) {
+  //   await profile.uploadProfileImage(file, null);
+  // }
+};
+
+console.log(ImageCropper);
+
+const uploadCroppedAvatar = async (blob) => {
+  if (blob) {
+    console.log("blob: ", blob);
+    await profile.uploadProfileImage(blob, null);
   }
 };
 

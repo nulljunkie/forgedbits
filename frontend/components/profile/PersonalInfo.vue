@@ -5,41 +5,27 @@
     </h2>
     <form>
       <div class="">
-        <div class="flex flex-row gap-4">
-          <div>
+        <div class="flex flex-row gap-4 border border-green-500">
+          <div class="flex-auto">
             <label class="block text-sm font-medium text-gray-700"
               >First Name</label
             >
-            <UInput
+            <input
               v-model="profile.firstName"
-              resize
-              autoresize
-              color="gray"
-              placeholder="Type your first name in here..."
-              :ui="{
-                color: {
-                  gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-                },
-              }"
-              class="font-black"
+              placeholder="your first name..."
+              class="text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
             />
           </div>
+
           <div>
             <label class="block text-sm font-medium text-gray-700"
               >Last Name</label
             >
-            <UInput
+
+            <input
               v-model="profile.lastName"
-              resize
-              autoresize
-              color="gray"
-              placeholder="Type your last name in here..."
-              :ui="{
-                color: {
-                  gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-                },
-              }"
-              class="font-black"
+              placeholder="your last name..."
+              class="text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
             />
           </div>
         </div>
@@ -48,34 +34,20 @@
           <label class="block text-sm font-medium text-gray-700"
             >Username</label
           >
-          <UInput
+          <input
             v-model="profile.username"
-            resize
-            autoresize
-            color="gray"
-            :ui="{
-              color: {
-                gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-              },
-            }"
-            class="font-black w-64"
+            class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
           />
         </div>
 
         <div class="col-span-2 mt-4">
           <label class="block text-sm font-medium text-gray-700">Email</label>
-          <UInput
+
+          <input
             v-model="profile.email"
-            resize
-            autoresize
-            color="gray"
-            placeholder="Type your email in here..."
-            :ui="{
-              color: {
-                gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-              },
-            }"
-            class="font-black w-[340px]"
+            type="email"
+            placeholder="your-email@example.com"
+            class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
           />
         </div>
 
@@ -83,31 +55,23 @@
           <label class="block text-sm font-medium text-gray-700"
             >Phone number:</label
           >
-          <UInput
+
+          <input
             v-model="profile.phone_number"
-            color="gray"
             type="tel"
-            :ui="{
-              color: {
-                gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-              },
-            }"
-            class="font-black w-48"
+            placeholder="+1 123 456 7890"
+            class="text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
           />
         </div>
 
         <div class="col-span-2 mt-4">
           <label class="block text-sm font-medium text-gray-700">Bio</label>
-          <UTextarea
+
+          <textarea
             v-model="profile.bio"
-            resize
-            autoresize
-            color="gray"
-            placeholder="Introcude yourself..."
-            :ui="{
-              color: { gray: { outline: 'focus:ring-gray-700 focus:ring-1' } },
-            }"
-            class="font-black max-w-[560px]"
+            rows="6"
+            placeholder="about you..."
+            class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
           />
         </div>
 
@@ -116,16 +80,11 @@
             <label class="block text-sm font-medium text-gray-700"
               >Birth date:</label
             >
-            <UInput
+
+            <input
               v-model="profile.birth_date"
               type="date"
-              color="gray"
-              :ui="{
-                color: {
-                  gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-                },
-              }"
-              class="font-black w-48"
+              class="text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
             />
           </div>
 
@@ -133,15 +92,11 @@
             <label class="block text-sm font-medium text-gray-700"
               >Location:</label
             >
-            <UInput
+
+            <input
               v-model="profile.location"
-              color="gray"
-              :ui="{
-                color: {
-                  gray: { outline: 'focus:ring-gray-700 focus:ring-1' },
-                },
-              }"
-              class="font-black w-48"
+              placeholder="your residence address..."
+              class="text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
             />
           </div>
         </div>
@@ -149,27 +104,23 @@
           <label class="block text-sm font-medium text-gray-700"
             >Linkedin:</label
           >
-          <UInput
+
+          <input
             v-model="profile.linkedin_profile"
-            color="gray"
+            placeholder="your linkedin profile.."
             type="url"
-            :ui="{
-              color: { gray: { outline: 'focus:ring-gray-700 focus:ring-1' } },
-            }"
-            class="font-black max-w-[560px]"
+            class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
           />
         </div>
 
         <div class="col-span-2 mt-4">
           <label class="block text-sm font-medium text-gray-700">Github:</label>
-          <UInput
+
+          <input
             v-model="profile.github_profile"
-            color="gray"
+            placeholder="your github profile.."
             type="url"
-            :ui="{
-              color: { gray: { outline: 'focus:ring-gray-700 focus:ring-1' } },
-            }"
-            class="font-black max-w-[560px]"
+            class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
           />
         </div>
 
@@ -177,24 +128,22 @@
           <label class="block text-sm font-medium text-gray-700"
             >Website:</label
           >
-          <UInput
+
+          <input
             v-model="profile.website"
-            color="gray"
+            placeholder="your website url..."
             type="url"
-            :ui="{
-              color: { gray: { outline: 'focus:ring-gray-700 focus:ring-1' } },
-            }"
-            class="font-black max-w-[560px]"
+            class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
           />
         </div>
       </div>
-      <UButton
+
+      <button
         @click="saveProfile"
-        size="lg"
-        padding="true"
-        label="Save info"
-        class="mt-4 text-white bg-gray-700 border border-gray-700 py-2 hover:text-white hover:bg-gray-700 active:ring-2 active:ring-gray-700"
-      />
+        class="mt-4 text-white font-bold px-4 py-2 bg-gray-700 hover:bg-gray-800 rounded-md active:scale-[102%]"
+      >
+        Save
+      </button>
     </form>
   </div>
 </template>

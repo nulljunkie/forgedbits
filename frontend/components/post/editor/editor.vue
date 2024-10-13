@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <div class="toolbar flex space-x-2 mx-4">
+  <div class="px-4">
+    <div class="toolbar flex space-x-2 mb-4">
       <UButton
         @click="applyBold"
         icon="i-material-symbols-format-bold"
@@ -152,17 +152,13 @@
         }"
       />
     </div>
-    <UTextarea
+    <textarea
       v-model="localValue"
       name="contentarea"
-      :padded="true"
-      placeholder="Write your post content here..."
-      variant="none"
-      class="w-full p-2"
-      size="xl"
+      placeholder="Write post content here..."
       autoresize
-      rows="8"
-      maxrows="15"
+      rows="12"
+      class="text-gray-700 bg-white w-full scroll-m-4 outline-none"
     />
   </div>
 </template>

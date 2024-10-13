@@ -1,21 +1,19 @@
 <template>
   <div>
-    <UButton
+    <button
       v-if="!isFollowed"
       @click="follow"
-      size="xs"
-      color="black"
-      variant="solid"
-      label="Follow"
-    />
-    <UButton
+      class="py-1 px-2 inline-flex items-center text-xs font-bold rounded-lg border border-gray-900 bg-gray-800 text-white hover:bg-gray-900 focus:outline-none focus:bg-gray-900"
+    >
+      Follow
+    </button>
+    <button
       v-if="isFollowed"
       @click="unfollow"
-      size="xs"
-      color="black"
-      variant="outline"
-      label="Unfollow"
-    />
+      class="py-1 px-2 inline-flex items-center text-xs font-bold rounded-lg border border-black bg-gray-50 text-gray-800 hover:bg-gray-100"
+    >
+      Unfollow
+    </button>
   </div>
 </template>
 

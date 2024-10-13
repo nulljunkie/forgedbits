@@ -5,6 +5,7 @@
         <Bookmark
           :saved="postStore.currentPost.is_saved"
           :postId="postStore.currentPost.id"
+          class="border border-black"
         />
         <VoteView
           :votes="postStore.currentPost.votes"
@@ -17,7 +18,7 @@
     </div>
     <div class="">
       <section class="bg-white shadow-md rounded-lg">
-        <PostContent />
+        <PostPostContent />
         <CommentList :postId="postStore.currentPost.id" />
       </section>
     </div>
@@ -25,10 +26,6 @@
 </template>
 
 <script setup>
-// import PostContent from "../../components/post/PostContent.vue";
-// import CommentList from "../../components/comment/CommentList.vue";
-// import Bookmark from "~/components/post/Bookmark.vue";
-
 import { usePost } from "#imports";
 
 const postStore = usePost();

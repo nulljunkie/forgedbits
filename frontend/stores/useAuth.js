@@ -6,6 +6,8 @@ import { useProfile } from "./useProfile";
 const API_URL = "http://127.0.0.1:8000/api/users/";
 
 export const useAuth = defineStore("auth", () => {
+  const authenticating = ref(false);
+
   const user = useCookie("USER", {
     maxAge: 60 * 60,
   });
@@ -112,6 +114,7 @@ export const useAuth = defineStore("auth", () => {
   };
 
   return {
+    authenticating,
     user,
     accessToken,
     refreshToken,

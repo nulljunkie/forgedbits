@@ -1,17 +1,10 @@
 <template>
   <div class="bg-bg_primary">
-    <NuxtLoadingIndicator color="#ff0000" height="5" />
-    <NuxtRouteAnnouncer />
     <navbar />
     <div class="min-h-screen max-w-[980px] mx-auto">
       <slot />
     </div>
-    <div>
-      <Footer />
-    </div>
-    <div>
-      <UNotifications />
-    </div>
+    <Footer />
   </div>
 </template>
 

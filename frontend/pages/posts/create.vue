@@ -1,12 +1,10 @@
 <template>
-  <section class="flex flex-col gap-2 bg-bg_primary">
-    <CreateForm />
+  <section id="create-page" class="flex flex-col gap-2 bg-gray-50">
+    <PostNewCreate />
   </section>
 </template>
 
 <script setup lang="ts">
-import CreateForm from "../../components/post/CreateForm.vue";
-
 definePageMeta({
   layout: "basic",
 });

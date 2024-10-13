@@ -106,13 +106,12 @@ export const useProfile = defineStore(
       try {
         const formData = new FormData();
         if (avatar) {
-          console.log("avatar");
-          formData.append("image", avatar);
+          formData.append("image", avatar, "avatar.jpg");
         } else if (banner) {
-          console.log("banner");
           formData.append("banner", banner);
         }
 
+        console.log("formData (profile store btw): ", formData);
         const res = await $fetch(`${API_URL}profile/upload/`, {
           method: "patch",
           headers: {

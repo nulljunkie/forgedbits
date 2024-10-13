@@ -5,7 +5,7 @@ from posts.models import Post
 
 class Comment(models.Model):
 
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE, null=True, blank=True)
     parent = models.ForeignKey('self', related_name="replies", on_delete=models.CASCADE, null=True, blank=True)
     content = models.TextField()

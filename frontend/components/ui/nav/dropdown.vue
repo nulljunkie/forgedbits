@@ -14,7 +14,7 @@
 
     <div
       v-if="isDropdownOpen"
-      class="absolute z-20 right-0 w-48 bg-white rounded-sm shadow-xl border border-gray-200"
+      class="absolute z-20 right-[-8px] w-52 bg-white rounded-sm shadow-xl border border-gray-200"
     >
       <UiNavDropdownlink
         link="/profile"
@@ -52,6 +52,8 @@ import { useAuth } from "#imports";
 const profile = useProfile();
 const auth = useAuth();
 
+await profile.get();
+
 const isDropdownOpen = ref(false);
 const profileButton = ref(null);
 
@@ -65,10 +67,7 @@ const closeDropdown = (event) => {
   }
 };
 
-onMounted(async () => {
-  if (auth.user) {
-    await profile.get();
-  }
+onMounted(() => {
   document.addEventListener("click", closeDropdown);
 });
 

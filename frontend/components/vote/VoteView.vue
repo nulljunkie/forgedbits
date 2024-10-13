@@ -3,15 +3,37 @@
     class="flex items-center gap-1"
     :class="props.direction === 'row' ? 'flex-row' : 'flex-col'"
   >
-    <div class="flex flex-row items-center">
-      <button @click="upvote">
-        <UIcon :name="upvoteIcon" class="w-4 h-4 text-gray-600" />
+    <div
+      class="flex flex-row items-center bg-gray-100 border border-gray-100 shadow-sm rounded-full pr-2"
+    >
+      <button
+        @click="upvote"
+        class="group size-6 rounded-full hover:bg-red-100"
+        :class="upvoteIcon === icons.ups ? 'bg-red-100' : 'text-gray-100'"
+      >
+        <Icon
+          :name="upvoteIcon"
+          class="w-4 h-4 group-hover:text-red-500 group-hover:font-bold"
+          :class="upvoteIcon === icons.ups ? 'text-red-600' : 'text-gray-600'"
+        />
       </button>
       <p class="text-sm text-gray-600">{{ props.votes.upvotes }}</p>
     </div>
-    <div class="flex flex-row items-center">
-      <button @click="downvote">
-        <UIcon :name="downvoteIcon" class="w-4 h-4 text-gray-600" />
+    <div
+      class="flex flex-row items-center bg-gray-100 border border-gray-100 shadow-sm rounded-full pr-2"
+    >
+      <button
+        @click="downvote"
+        class="group size-6 rounded-full hover:bg-red-100"
+        :class="downvoteIcon === icons.downs ? 'bg-red-100' : 'text-gray-100'"
+      >
+        <Icon
+          :name="downvoteIcon"
+          class="w-4 h-4 group-hover:text-red-500 group-hover:font-bold"
+          :class="
+            downvoteIcon === icons.downs ? 'text-red-600' : 'text-gray-600'
+          "
+        />
       </button>
       <p class="text-sm text-gray-600">{{ props.votes.downvotes }}</p>
     </div>

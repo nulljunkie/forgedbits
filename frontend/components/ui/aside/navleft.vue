@@ -1,11 +1,11 @@
 <template>
-  <div class="sticky top-10 p-2">
+  <div class="sticky top-[84px] p-2">
     <div class="flex flex-col gap-2 w-48">
       <NuxtLink
         v-for="link in links"
         :key="link.id"
         :to="link.to"
-        class="text-gray-700 px-4 py-2 rounded-md"
+        class="text-gray-700 px-4 py-2 rounded-md hover:bg-white"
       >
         <span class="flex items-center gap-2">
           <Icon :name="link.icon" size="24" />
@@ -25,17 +25,20 @@
         </p>
         <div v-for="tag in tags" :key="tag.id">
           <NuxtLink
-            :to="{ name: 'posts-tag-slug', params: { slug: tag.name } }"
+            :to="{
+              name: 'posts-tag-slug',
+              params: { slug: tag.name },
+            }"
+            activeClass="tag-nuxt-link"
+            class="flex items-center transition duration-150 ease-linear hover:scale-[102%] text-gray-600 group"
           >
-            <span class="flex items-center text-gray-600 group">
-              <Icon
-                name="i-mingcute-hashtag-fill"
-                class="text-gray-400 group-hover:text-gray-500"
-              />
-              <p class="group-hover:text-gray-800">
-                {{ tag.name }} ({{ tag.posts_count }})
-              </p>
-            </span>
+            <Icon
+              name="i-mingcute-hashtag-fill"
+              class="text-gray-400 group-hover:text-gray-500"
+            />
+            <p class="group-hover:text-gray-900 hover:font-bold">
+              {{ tag.name }} ({{ tag.posts_count }})
+            </p>
           </NuxtLink>
         </div>
 
@@ -84,5 +87,9 @@ const links = [
 <style scoped>
 .router-link-active {
   @apply bg-white font-bold;
+}
+
+.tag-nuxt-link p {
+  @apply font-bold text-gray-800 scale-[102%];
 }
 </style>

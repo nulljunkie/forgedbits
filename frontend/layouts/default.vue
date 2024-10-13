@@ -1,7 +1,5 @@
 <template>
   <div class="bg-bg_primary">
-    <NuxtLoadingIndicator color="#ff0000" height="5" />
-    <NuxtRouteAnnouncer />
     <navbar />
     <div
       class="flex flex-row gap-4 min-h-screen max-w-[1200px] mx-auto mt-8 px-4"
@@ -14,7 +12,6 @@
       </div>
     </div>
     <Footer />
-    <UNotifications />
   </div>
 </template>
 

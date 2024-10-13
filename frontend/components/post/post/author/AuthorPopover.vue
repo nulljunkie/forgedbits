@@ -1,16 +1,25 @@
 <template>
   <div class="relative inline-block">
-    <div class="flex flex-row items-center">
-      <UPopover mode="hover">
+    <div class="flex">
+      <UPopover
+        mode="hover"
+        :ui="{
+          width: 'max-w-64',
+          background: 'bg-white dark:bg-white',
+          ring: 'ring-1 dark:ring-gray-300',
+          shadow: 'shadow-xl',
+        }"
+        class="mt-1"
+      >
         <UAvatar
           size="sm"
           :src="props.author.image"
           :alt="props.author.username"
-          class="pt-1"
+          class="border border-gray-900"
         />
-        <template #panel>
-          <div class="p-2 w-[240px]">
-            <Tooltip
+        <template #panel class="">
+          <div class="p-2">
+            <PostPostAuthorPopoverContent
               :profileId="props.author.profile_id"
               :userImage="props.author.image"
               :username="props.author.username"
@@ -19,7 +28,7 @@
         </template>
       </UPopover>
 
-      <div class="ml-1 pt-1">
+      <div class="ml-1 space-y-[-4px]">
         <ULink
           to="/profile"
           inactive-class="text-sm font-bold text-gray-700 hover:underline "
@@ -27,7 +36,7 @@
           {{ props.author.username }}
         </ULink>
 
-        <div class="text-xs font-thin">{{ createdDate }}</div>
+        <div class="text-xs font-thin text-gray-700">{{ createdDate }}</div>
       </div>
     </div>
   </div>
@@ -35,7 +44,6 @@
 
 <script setup>
 import { formatDate } from "~/utils/dateFns.js";
-import Tooltip from "./Tooltip.vue";
 
 const props = defineProps({
   author: {

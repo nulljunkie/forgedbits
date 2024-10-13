@@ -1,20 +1,20 @@
 <template>
+  <!-- class="max-h-[320px] w-full rounded-t-lg overflow-hidden flex items-center justify-center" -->
   <div>
     <div class="w-[900px]">
-      <div
-        v-if="postStore.currentPost.cover"
-        class="max-h-[320px] w-full rounded-t-lg mb-8 overflow-hidden flex items-center justify-center"
-      >
+      <div v-if="postStore.currentPost.cover" class="h-[320px] w-full">
         <img
           :src="postStore.currentPost.cover"
           alt="Blog Cover"
-          class="w-full"
+          class="h-full w-full object-fill"
         />
       </div>
-      <LoadPreview
+      <div class="text-gray-600">published by @imad on dec 24, 2060</div>
+      <PostEditorPreview
         :title="postStore.currentPost.title"
         :content="postStore.currentPost.content"
         :tags="postStore.currentPost.tags"
+        class="pt-8"
       />
     </div>
     <div class="mt-8 px-8">
@@ -28,7 +28,6 @@
 </template>
 
 <script setup>
-import LoadPreview from "./LoadPreview.vue";
 import { usePost } from "#imports";
 
 const postStore = usePost();

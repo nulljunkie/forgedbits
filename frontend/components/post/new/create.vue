@@ -33,55 +33,54 @@
   </div>
   <div class="p-8 h-auto border-2 rounded-md bg-white">
     <div v-if="!preview">
-      <PostBannerUpload ref="coverPost" @upload-image="handleImage" />
+      <PostNewBanner
+        ref="coverPost"
+        @upload-cover="handleCover"
+        @remove-cover="removeCover"
+      />
 
-      <!-- title -->
-      <UInput
+      <input
         v-model="title"
-        :padded="true"
         name="title"
         placeholder="New post title here..."
-        variant="none"
-        :ui="{
-          size: { xxxl: 'text-3xl' },
-          //TODO: add custom ui attributes
-          font: { bold: 'text-red-600', semibold: 'font-semibold' },
-        }"
-        class="w-full p-2 my-4"
-        size="xxxl"
-        font="bold"
+        class="bg-white text-3xl text-gray-700 my-4 p-2 focus:outline-none"
       />
+
       <div class="border border-gray-400 rounded-lg pt-4">
-        <MarkdownEditor v-model="content" />
+        <PostEditor v-model="content" />
       </div>
 
-      <PostAddTags ref="tagsRef" @select-tags="handleTags" />
+      <PostNewTags ref="tagsRef" @select-tags="handleTags" />
     </div>
 
     <!-- render preview -->
-    <LoadPreview v-else :title="title" :content="content" :tags="tags" />
+    <PostEditorPreview v-else :title="title" :content="content" :tags="tags" />
+
     <div class="flex flex-row items-center gap-4">
-      <UButton
+      <button
         @click="submitPost"
-        label="Publish"
-        icon="material-symbols-publish"
-        class="text-white bg-gray-700 border border-gray-700 py-2 hover:text-white hover:bg-gray-700 active:ring-2 active:ring-gray-700"
-      />
-      <UButton
+        class="bg-gray-700 py-2 px-4 text-white font-bold border border-gray-700 rounded-lg hover:bg-gray-800 hover:border-gray-800 transform active:scale-[102%]"
+      >
+        <div class="flex items-center gap-1">
+          <Icon name="material-symbol:publish" size="24" />
+          <span>Publish</span>
+        </div>
+      </button>
+
+      <button
         @click=""
-        label="Save draft"
-        icon="ci-save"
-        class="text-gray-700 bg-white hover:bg-gray-700 border border-gray-700 hover:text-white py-2"
-      />
+        class="bg-gray-50 py-2 px-4 text-gray-700 font-bold border border-gray-700 rounded-lg hover:bg-gray-100 hover:border-gray-800 transform active:scale-[102%]"
+      >
+        <div class="flex items-center gap-1">
+          <Icon name="ci:save" size="24" />
+          <span>Save draft</span>
+        </div>
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import LoadPreview from "./LoadPreview.vue";
-import MarkdownEditor from "./MarkdownEditor.vue";
-import PostBannerUpload from "./PostBannerUpload.vue";
-import PostAddTags from "./PostAddTags.vue";
 import { usePost } from "#imports";
 import { addSuccessToast, addErrorToast } from "/utils/toast.js";
 
@@ -98,9 +97,15 @@ const tagsRef = ref(null);
 const postStore = usePost();
 const toast = useToast();
 
-const handleImage = (img) => {
+const handleCover = (img) => {
   coverImage.value = img;
-  console.log("coverImage: ", coverImage.value);
+  console.log("coverImage [1]: ", coverImage.value);
+  console.log("coverImage [1]: ", img);
+};
+
+const removeCover = () => {
+  coverImage.value = "";
+  console.log("coverImage [3]: ", coverImage.value);
 };
 
 const handleTags = (tags) => {
@@ -115,7 +120,8 @@ const clearAllTags = () => {
 
 const clearFile = () => {
   if (coverPost.value) {
-    coverPost.value.clearInputFile();
+    // coverPost.value.clearInputFile();
+    coverPost.value.removeCover();
   }
 };
 
@@ -123,12 +129,15 @@ const submitPost = async () => {
   if (title.value && content.value) {
     const formData = new FormData();
     if (coverImage.value) {
-      formData.append("cover", coverImage.value);
+      console.log("coverImage [2]: ", coverImage.value);
+      formData.append("cover", coverImage.value, "cover.jpeg");
     }
     formData.append("title", title.value);
     formData.append("content", content.value);
     formData.append("tags", JSON.stringify(tagList.value));
     formData.append("is_draft", isDraft.value);
+
+    console.log(formData);
     try {
       await postStore.addPost(formData);
       addSuccessToast("Done", "published Successfully");

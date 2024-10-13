@@ -86,10 +86,14 @@ class ProfileGlimpsSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(source='user.date_joined', read_only=True)
 
     is_followed = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
+    posts_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ['bio', 'email', 'is_followed', 'first_name', 'last_name', 'date_joined', 'image', 'username', 'id']
+        fields = ['bio', 'email', 'is_followed', 'first_name', 'last_name', 'date_joined', 'image', 'username', 'id', 'followers', 'following', 'posts_count', 'comments_count']
 
 
     def get_is_followed(self, obj):
@@ -98,3 +102,17 @@ class ProfileGlimpsSerializer(serializers.ModelSerializer):
         if user.is_authenticated:
             return obj.followers.all().filter(user=user).exists()
         return False
+
+    def get_followers(self, obj):
+        return obj.followers.all().count()
+
+    def get_following(self, obj):
+        return obj.follower.all().count()
+
+    def get_posts_count(self, obj):
+        return obj.user.posts.all().count()
+
+    def get_comments_count(self, obj):
+        return obj.user.comments.all().count()
+
+

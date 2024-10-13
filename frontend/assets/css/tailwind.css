@@ -9,29 +9,48 @@ html {
 
 @layer components {
   .markdown-content {
+    /* @apply max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-8; */
+
     h1 {
-      @apply text-4xl font-extrabold text-gray-800 my-4;
+      @apply text-4xl font-bold text-gray-900 mb-4;
     }
+
     h2 {
-      @apply text-3xl font-extrabold text-gray-800 my-4;
+      @apply text-3xl font-semibold text-gray-800 mt-6 mb-3;
     }
+
     h3 {
-      @apply text-2xl font-extrabold text-gray-800 my-4;
+      @apply text-2xl font-semibold text-gray-700 mt-5 mb-2;
     }
     h4 {
-      @apply text-xl font-extrabold text-gray-800 mt-2 mb-4;
+      @apply text-xl font-semibold text-gray-700 mt-4 mb-2;
     }
+
     p {
-      @apply text-gray-600 indent-8;
+      @apply text-gray-700 leading-relaxed mb-4;
+    }
+
+    a {
+      /* @apply text-blue-600 hover:text-blue-800 underline; */
+    }
+
+    ul {
+      @apply list-disc text-gray-700 list-inside pl-4 mb-4;
+    }
+
+    ol {
+      @apply list-decimal text-gray-700 list-inside pl-4 mb-4;
+    }
+
+    blockquote {
+      @apply border-l-4 border-blue-500 pl-4 italic text-gray-600 mb-4;
+    }
+
+    img {
+      @apply rounded-lg my-4;
     }
     strong {
-      @apply text-black;
-    }
-    code {
-      @apply bg-gray-700 px-2 py-1;
-    }
-    pre code {
-      @apply text-inherit bg-inherit;
+      @apply font-extrabold text-gray-900;
     }
   }
 }

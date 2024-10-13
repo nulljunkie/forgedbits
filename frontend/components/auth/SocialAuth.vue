@@ -6,12 +6,7 @@
       <hr class="border-gray-500 w-full" />
     </div>
 
-    <button
-      class="flex gap-2 items-center justify-center h-12 w-full bg-gray-800 text-white border border-gray-800 font-bold rounded-md active:scale-[102%] transition ease-in"
-    >
-      <Icon name="i-simple-icons-github" size="20" />
-      <p>Continue with Github</p>
-    </button>
+    <AuthOauth2Github />
 
     <button
       class="flex gap-2 items-center justify-center h-12 w-full bg-white-800 border border-gray-700 text-gray-700 font-bold rounded-md active:scale-[102%] transition ease-in"

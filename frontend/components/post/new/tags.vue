@@ -24,7 +24,7 @@
         v-model="newTag"
         @keyup.enter="addTag"
         placeholder="Type and press Enter to add a tag"
-        class="border-none outline-none flex-grow px-2 py-1"
+        class="border-none outline-none flex-grow px-2 py-1 text-gray-700 bg-white"
       />
     </div>
   </div>

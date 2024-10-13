@@ -1,8 +1,18 @@
 <template>
-  <div v-for="post in props.posts" :key="post.id">
-    <div class="border p-2 rounded-md bg-white shadow-sm">
+  <div
+    v-for="post in props.posts"
+    :key="post.id"
+    class="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden"
+  >
+    <div class="relative" :class="post.cover ? '-mb-8 -z-0' : ''">
+      <img :src="post.cover" class="w-full" />
+      <div
+        class="absolute z-10 bottom-0 bg-gradient-to-t from-white to-transparent h-[15%] w-full text-black"
+      ></div>
+    </div>
+    <div class="p-2">
       <div class="flex flex-row items-center justify-between">
-        <UserTooltip
+        <AuthorPopover
           :author="post.author_details"
           :created="post.created_at"
           :updated="post.updated_at"
@@ -33,9 +43,9 @@
         >
           <CommentCount :count="post.comments_count" />
           <div
-            class="flex items-center gap-1 hover:text-gray-800 bg-slate-100 rounded-full px-2 py-1"
+            class="flex items-center gap-1 hover:text-gray-800 bg-slate-100 rounded-full px-1 h-6"
           >
-            <Icon name="ph-eye" size="20" />
+            <Icon name="ph-eye" class="w-4 h-4" />
             <p v-if="post.views_count">
               {{ post.views_count }}
             </p>
@@ -50,9 +60,9 @@
 <script setup>
 import { useProfile } from "#imports";
 import { useAuth } from "#imports";
-import VoteView from "../vote/VoteView.vue";
-import UserTooltip from "../profile/UserTooltip.vue";
-import Bookmark from "./Bookmark.vue";
+import VoteView from "../../vote/VoteView.vue";
+import Bookmark from "../Bookmark.vue";
+import AuthorPopover from "./author/AuthorPopover.vue";
 
 const profile = useProfile();
 const auth = useAuth();
