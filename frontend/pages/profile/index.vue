@@ -1,7 +1,7 @@
 <template>
   <div id="profile-page" class="min-h-screen max-w-[1200px] mx-auto">
     <ProfileHeader />
-    <div class="flex flex-col md:flex-row mt-[140px] mx-8 gap-6">
+    <div class="flex flex-col md:flex-row mt-[140px] mx-4 gap-6">
       <div class="md:w-1/2">
         <ProfilePersonalInfo />
       </div>
@@ -14,10 +14,6 @@
 </template>
 
 <script setup>
-import { useProfile } from "#imports";
-
-const profile = useProfile();
-
 definePageMeta({
   layout: "basic",
 });

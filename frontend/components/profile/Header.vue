@@ -24,6 +24,19 @@
               @change="onBannerSelected"
               class="hidden"
             />
+
+            <ClientOnly>
+              <Teleport to="#profile-page">
+                <ImageCropper
+                  v-if="bannerUrl"
+                  @sendBlob="uploadCroppedBanner"
+                  @cancelCrop="bannerUrl = ''"
+                  :imageUrl="bannerUrl"
+                  cropWidth="600"
+                  cropHeigth="150"
+                />
+              </Teleport>
+            </ClientOnly>
           </div>
         </label>
       </div>
@@ -82,31 +95,31 @@ import ImageCropper from "@/utils/ImageCropper.vue";
 const profile = useProfile();
 
 const avatarUrl = ref("");
+const bannerUrl = ref("");
 
 const onAvatarSelected = (event) => {
   const file = event.target.files[0];
   if (file) {
     avatarUrl.value = URL.createObjectURL(file);
   }
-
-  // if (file) {
-  //   await profile.uploadProfileImage(file, null);
-  // }
 };
-
-console.log(ImageCropper);
 
 const uploadCroppedAvatar = async (blob) => {
   if (blob) {
-    console.log("blob: ", blob);
     await profile.uploadProfileImage(blob, null);
   }
 };
 
-const onBannerSelected = async (event) => {
+const onBannerSelected = (event) => {
   const file = event.target.files[0];
   if (file) {
-    await profile.uploadProfileImage(null, file);
+    bannerUrl.value = URL.createObjectURL(file);
+  }
+};
+
+const uploadCroppedBanner = async (blob) => {
+  if (blob) {
+    await profile.uploadProfileImage(null, blob);
   }
 };
 </script>

@@ -59,31 +59,8 @@ class RegisterView(APIView):
 
 
 class UpdateProfileView(APIView):
-    # parser_classes = [FileUploadParser]
-
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-
-    # def post(self, request):
-    #     try:
-    #         # is this defined also in except and else
-    #         profile = Profile.objects.get(user=request.user)
-    #     except Profile.DoesNotExist:
-    #         serializer = ProfileSerializer(
-    #             data=request.data, context={"request": request}
-    #         )
-    #         if serializer.is_valid(raise_exception=True):
-    #             serializer.save()
-    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #     else:
-    #         serializer = ProfileSerializer(
-    #             instance=profile, data=request.data, context={"request": request}
-    #         )
-    #         if serializer.is_valid():
-    #             serializer.save()
-    #             return Response(serializer.data, status=status.HTTP_200_OK)
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request):
 

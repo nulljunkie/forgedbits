@@ -3,21 +3,21 @@
     <h2 class="text-2xl font-semibold text-gray-700 mb-4">
       Personal Information
     </h2>
-    <form>
-      <div class="">
-        <div class="flex flex-row gap-4 border border-green-500">
-          <div class="flex-auto">
+    <form @submit.prevent @keydown.enter.prevent>
+      <div class="bg-white p-4 rounded-md shadow-md">
+        <div class="flex flex-row gap-4">
+          <div class="flex-1">
             <label class="block text-sm font-medium text-gray-700"
               >First Name</label
             >
             <input
               v-model="profile.firstName"
               placeholder="your first name..."
-              class="text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
+              class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
             />
           </div>
 
-          <div>
+          <div class="flex-1">
             <label class="block text-sm font-medium text-gray-700"
               >Last Name</label
             >
@@ -25,7 +25,7 @@
             <input
               v-model="profile.lastName"
               placeholder="your last name..."
-              class="text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
+              class="w-full text-gray-700 font-bold bg-gray-50 ring-1 ring-gray-300 focus:ring-gray-500 focus:shadow-md px-2 py-1 rounded-md"
             />
           </div>
         </div>
@@ -139,7 +139,7 @@
       </div>
 
       <button
-        @click="saveProfile"
+        @click="save"
         class="mt-4 text-white font-bold px-4 py-2 bg-gray-700 hover:bg-gray-800 rounded-md active:scale-[102%]"
       >
         Save
@@ -148,12 +148,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useProfile } from "#imports";
 
 const profile = useProfile();
 
-const saveProfile = async () => {
+const save = async () => {
+  console.log("saving profileinfo [1]");
   await profile.save();
 };
 </script>

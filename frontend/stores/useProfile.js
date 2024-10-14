@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, resolveDirective } from "vue";
 import { useAuth } from "#imports";
 
 const API_URL = "http://127.0.0.1:8000/api/users/";
@@ -41,19 +41,6 @@ export const useProfile = defineStore(
             setProfile(data.value);
           } else if (error.value) {
             console.log("error.value for useFetch profile.get");
-            // console.log("profile useFetch error: ", error.value);
-            // try {
-            //   await auth.refresh();
-            //   console.log("jwt refreshed 100%");
-            //   const res = await $fetch(`${API_URL}profile/`, {
-            //     headers: {
-            //       Authorization: `Bearer ${auth.accessToken}`,
-            //     },
-            //   });
-            //   console.log("res: ", res);
-            // } catch (error) {
-            //   console.log("second attempt for fetching profile failed");
-            // }
           }
         } catch (error) {
           console.error("get profile errror: ", error);
@@ -61,44 +48,70 @@ export const useProfile = defineStore(
       else navigateTo("/auth/login");
     };
 
-    const save = async (info) => {
+    const save = async () => {
+      const body = {};
+      if (username.value) {
+        body.username = username.value;
+      }
+      if (firstName.value) {
+        body.firstName = firstName.value;
+      }
+      if (lastName.value) {
+        body.lastName = lastName.value;
+      }
+      if (email.value) {
+        body.email = email.value;
+      }
+      if (bio.value) {
+        body.bio = bio.value;
+      }
+      if (location.value) {
+        body.location = location.value;
+      }
+      if (phone_number.value) {
+        body.phone_number = phone_number.value;
+      }
+      if (website.value) {
+        body.website = website.value;
+      }
+      if (linkedin_profile.value) {
+        body.linkedin_profile = linkedin_profile.value;
+      }
+      if (github_profile.value) {
+        body.github_profile = github_profile.value;
+      }
+      if (birth_date.value) {
+        body.birth_date = birth_date.value;
+      }
+      console.log("body: ", body);
       try {
-        const response = await $fetch(`${API_URL}profile/upload/`, {
-          method: "patch",
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
+        const response = await $fetch(
+          "http://127.0.0.1:8000/api/users/profile/upload/",
+          {
+            method: "patch",
+            headers: {
+              Authorization: `Bearer ${auth.accessToken}`,
+              "Content-Type": "application/json",
+            },
+            body: {
+              username: username.value,
+              firstName: firstName.value,
+              lastName: lastName.value,
+              email: email.value,
+              bio: bio.value,
+              location: location.value,
+              phone_number: phone_number.value,
+              website: website.value,
+              linkedin_profile: linkedin_profile.value,
+              github_profile: github_profile.value,
+              birth_date: birth_date.value,
+            },
           },
-          body: {
-            username: username.value,
-            firstName: firstName.value,
-            lastName: lastName.value,
-            email: email.value,
-            bio: bio.value,
-            location: location.value,
-            phone_number: phone_number.value,
-            website: website.value,
-            linkedin_profile: linkedin_profile.value,
-            github_profile: github_profile.value,
-            birth_date: birth_date.value,
-          },
-        });
+        );
+
         setProfile(response);
       } catch (error) {
-        console.error("Profile Save Error: ", error.data);
-        // try {
-        //   await auth.refresh();
-        //   const response = await $fetch(`${API_URL}profile/upload/`, {
-        //     method: "post",
-        //     headers: {
-        //       Authorization: `Bearer ${auth.accessToken}`,
-        //     },
-        //     body: formData,
-        //   });
-        //   console.log("profile save retry 100%: \n", response);
-        //   setProfile(response);
-        // } catch (error) {
-        //   console.log("profile save retry failed");
-        // }
+        console.error("Profile Save Error: ", error);
       }
     };
 
@@ -108,7 +121,7 @@ export const useProfile = defineStore(
         if (avatar) {
           formData.append("image", avatar, "avatar.jpg");
         } else if (banner) {
-          formData.append("banner", banner);
+          formData.append("banner", banner, "banner.jpeg");
         }
 
         console.log("formData (profile store btw): ", formData);

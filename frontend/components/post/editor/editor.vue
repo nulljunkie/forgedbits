@@ -1,156 +1,73 @@
 <template>
   <div class="px-4">
     <div class="toolbar flex space-x-2 mb-4">
-      <UButton
+      <button
         @click="applyBold"
-        icon="i-material-symbols-format-bold"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="material-symbols-format-bold" size="24" />
+      </button>
+
+      <button
         @click="applyItalic"
-        icon="i-material-symbols-format-italic"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="material-symbols-format-italic" size="24" />
+      </button>
+      <button
         @click="applyHeading1"
-        icon="i-gravity-ui-heading-1"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="gravity-ui:heading-1" size="24" />
+      </button>
+      <button
         @click="applyHeading2"
-        icon="i-gravity-ui-heading-2"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="gravity-ui:heading-2" size="24" />
+      </button>
+
+      <button
         @click="applyHeading3"
-        icon="i-gravity-ui-heading-3"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="gravity-ui:heading-3" size="24" />
+      </button>
+
+      <button
         @click="applyUnorderedList"
-        icon="i-ic-baseline-format-list-bulleted"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="ic:baseline-format-list-bulleted" size="24" />
+      </button>
+
+      <button
         @click="applyOrderedList"
-        icon="i-ic:baseline-format-list-numbered"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="ic:baseline-format-list-numbered" size="24" />
+      </button>
+
+      <button
         @click="applyCodeBlock"
-        icon="i-material-symbols-code-rounded"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="material-symbols:code-rounded" size="24" />
+      </button>
+
+      <button
         @click="applyImage"
-        icon="i-material-symbols-image-outline"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
-      <UButton
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="material-symbols:image-outline" size="24" />
+      </button>
+
+      <button
         @click="applyLink"
-        icon="i-material-symbols-add-link"
-        size="sm"
-        color="gray"
-        :ui="{
-          icon: { size: { md: 'w-6 h-6' } },
-          color: {
-            gray: {
-              solid:
-                'bg-gray-600 hover:text-white hover:bg-gray-700 text-white',
-            },
-          },
-        }"
-      />
+        class="text-white bg-gray-800 h-8 w-8 flex items-center justify-center rounded-md hover:bg-gray-900"
+      >
+        <Icon name="material-symbols:add-link" size="24" />
+      </button>
     </div>
     <textarea
       v-model="localValue"
@@ -164,21 +81,17 @@
 </template>
 
 <script setup>
-// Define props and emits
 const props = defineProps({
   modelValue: String,
 });
 const emit = defineEmits(["update:modelValue"]);
 
-// Local reactive value based on the prop
 const localValue = ref(props.modelValue);
 
-// Watch for changes in the local value and emit them to the parent
 watch(localValue, (newValue) => {
   emit("update:modelValue", newValue);
 });
 
-// Update local value if the parent value changes
 watch(
   () => props.modelValue,
   (newValue) => {

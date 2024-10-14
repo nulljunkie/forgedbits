@@ -34,7 +34,7 @@ const cropImage = () => {
 
 <template>
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
+    class="fixed inset-0 z-50 flex items-center justify-center dark:bg-gray-900 bg-gray-900 bg-opacity-50 dark:bg-opacity-50"
   >
     <div class="relative w-[480px] h-[480px] rounded-md overflow-hidden">
       <Cropper

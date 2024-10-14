@@ -1,6 +1,6 @@
 <template>
-  <div class="sticky top-[84px] p-2">
-    <div class="flex flex-col gap-2 w-48">
+  <div class="sticky top-[84px] w-44 p-2">
+    <div class="flex flex-col gap-2">
       <NuxtLink
         v-for="link in links"
         :key="link.id"
@@ -16,7 +16,7 @@
         </span>
       </NuxtLink>
 
-      <hr class="border-gray-300" />
+      <hr class="border-gray-200 w-40" />
 
       <div class="flex flex-col gap-2 mt-4 pl-4 truncate">
         <p class="text-gray-700">

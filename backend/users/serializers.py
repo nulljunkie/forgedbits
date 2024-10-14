@@ -21,12 +21,14 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     image = serializers.ImageField(required=False, use_url=True)
     banner = serializers.ImageField(required=False, use_url=True)
-    bio = serializers.CharField(required=False)
-    location = serializers.CharField(required=False)
-    phone_number = serializers.CharField(required=False)
-    website = serializers.URLField(required=False)
-    linkedin_profile = serializers.URLField(required=False)
-    github_profile = serializers.URLField(required=False)
+
+    bio = serializers.CharField(required=False, allow_null=True)
+    location = serializers.CharField(required=False, allow_null=True)
+    phone_number = serializers.CharField(required=False, allow_null=True)
+    website = serializers.URLField(required=False, allow_null=True)
+    linkedin_profile = serializers.URLField(required=False, allow_null=True)
+    github_profile = serializers.URLField(required=False, allow_null=True)
+
     firstName = serializers.CharField(source='user.first_name', required=False)
     lastName = serializers.CharField(source='user.last_name', required=False)
     email = serializers.CharField(source='user.email', required=False)
@@ -39,7 +41,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
     def is_valid(self, *, raise_exception=False):
-
           
         user_data = {
             'first_name': self.initial_data.pop('firstName', None),
@@ -47,15 +48,13 @@ class ProfileSerializer(serializers.ModelSerializer):
             'email': self.initial_data.pop('email', None),
             'username': self.initial_data.pop('username', None),
             'birth_date': self.initial_data.pop('birth_date', None),
+            # 'bio': self.initial_data.pop('bio', None),
+            # 'website': self.initial_data.pop('website', None),
+            # 'github_profile': self.initial_data.pop('github_profile', None),
+            # 'linkedin_profile': self.initial_data.pop('linkedin_profile', None),
+            # 'location': self.initial_data.pop('location', None),
+            # 'phone_number': self.initial_data.pop('phone_number', None),
         }
-
-
-        print('data: ', user_data)
-        # serializer = UserInfoSerializer(data=user_data)
-
-        # if serializer.is_valid(raise_exception=True):
-        #     print('user valid data: ', serializer.validated_data)
-        # print('not vvalid fucking data')
 
         user = self.context['request'].user
 
@@ -69,6 +68,18 @@ class ProfileSerializer(serializers.ModelSerializer):
             user.username = user_data['username']
         if user_data['birth_date'] is not None:
             user.birth_date = user_data['birth_date']
+        # if user_data['bio'] is not None:
+        #     user.bio = user_data['bio']
+        # if user_data['location'] is not None:
+        #     user.location = user_data['location']
+        # if user_data['phone_number'] is not None:
+        #     user.phone_number = user_data['phone_number']
+        # if user_data['website'] is not None:
+        #     user.website = user_data['website']
+        # if user_data['linkedin_profile'] is not None:
+        #     user.linkedin_profile = user_data['linkedin_profile']
+        # if user_data['github_profile'] is not None:
+        #     user.github_profile = user_data['github_profile']
 
         user.save()
 

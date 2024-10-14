@@ -25,8 +25,7 @@
               </p>
             </div>
           </div>
-          <!-- <FollowButton :profileId="user.id" :isFollowed="user.isFollowed" /> -->
-          <FollowButton :user="user" />
+          <UiFollowFollowButton :user="user" />
         </div>
       </li>
     </ul>
@@ -34,8 +33,6 @@
 </template>
 
 <script setup>
-import FollowButton from "../profile/FollowButton.vue";
-
 import { useUser } from "#imports";
 
 const userStore = useUser();

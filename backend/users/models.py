@@ -87,6 +87,7 @@ class Profile(models.Model):
     website = models.URLField(null=True, blank=True)
     linkedin_profile = models.URLField(null=True, blank=True)
     github_profile = models.URLField(null=True, blank=True)
+
     saved_post = models.ManyToManyField(Post, related_name="saved_posts", blank=True)
     follower = models.ManyToManyField('self', symmetrical=False, related_name='followers',  blank=True)
 

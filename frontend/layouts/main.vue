@@ -61,8 +61,8 @@
 </template>
 
 <script setup>
-import Footer from "../components/ui/Footer.vue";
-import UsersBar from "../components/ui/UsersBar.vue";
+import Footer from "@/components/ui/Footer.vue";
+import UsersBar from "@/components/ui/UsersBar.vue";
 import navleft from "@/components/ui/aside/navleft.vue";
 import navbar from "@/components/ui/nav/navbar.vue";
 import { useAuth } from "#imports";
