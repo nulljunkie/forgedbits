@@ -13,7 +13,7 @@
     </div>
 
     <div v-else class="space-y-2">
-      <PostList :posts="posts" />
+      <PostPostList :posts="posts" />
     </div>
   </div>
 </template>

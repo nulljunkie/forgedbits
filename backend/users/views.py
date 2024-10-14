@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+from django.db.models import Count
 from posts.models import Post
 from rest_framework import generics, status
 from rest_framework.exceptions import ValidationError
@@ -175,21 +176,11 @@ class UserListAPIView(generics.ListAPIView):
 
     authentication_classes = [JWTAuthentication]
 
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.annotate(post_count=Count('user__posts')).order_by('-post_count')[:6]
     serializer_class = ProfileGlimpsSerializer
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        user = request.user
-        if user.is_authenticated:
-            queryset = queryset.exclude(user=user)
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
+        queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 

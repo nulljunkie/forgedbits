@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white text-gray-600 p-4">
-    <h2 class="text-xl font-bold mb-4">User List</h2>
+  <div class="bg-white text-gray-600 w-48 p-4">
+    <h2 class="text-xl font-bold mb-4 text-center">Top Users</h2>
     <ul>
       <li
         v-for="user in userStore.users"
@@ -9,23 +9,31 @@
       >
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <UAvatar
+            <img
               :src="user.image"
-              :alt="user.username"
-              size="xs"
-              class="border border-gray-800 bg-gray-200"
+              :alt="user.username[0]"
+              class="h-8 min-w-8 bg-gray-300 leading-7 text-center border border-black rounded-full"
             />
-            <div class="">
-              <h3 class="font-semibold text-sm overflow-ellipsis">
+            <div>
+              <NuxtLink
+                :to="`/users/${user.username}`"
+                class="font-semibold text-gray-800 text-sm overflow-ellipsis hover:underline"
+              >
                 {{ user.username }}
-              </h3>
-              <p class="text-xs font-thin overflow-ellipsis line-clamp-2">
-                this merely a simple fucking bio for this motherfucking useless
-                user
-              </p>
+              </NuxtLink>
+              <div class="text-xs">{{ user.followers }} followers</div>
             </div>
           </div>
-          <UiFollowFollowButton :user="user" />
+        </div>
+        <div class="flex justify-between items-center">
+          <p class="text-xs font-thin overflow-ellipsis line-clamp-2">
+            {{ user.bio }}
+          </p>
+          <UiFollowButton
+            v-if="user.username !== profile.username"
+            :user="user"
+            class="text-end mt-2"
+          />
         </div>
       </li>
     </ul>
@@ -34,8 +42,10 @@
 
 <script setup>
 import { useUser } from "#imports";
+import { useProfile } from "#imports";
 
 const userStore = useUser();
+const profile = useProfile();
 
 await userStore.getUsers();
 

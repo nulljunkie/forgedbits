@@ -45,7 +45,7 @@
             Chat
           </button>
 
-          <UiFollowFollowButton :user="authorProfile" />
+          <FollowButton :user="authorProfile" />
         </div>
       </div>
     </section>
@@ -54,7 +54,7 @@
 
 <script setup>
 import { useAuth } from "#imports";
-// import FollowButton from "./FollowButton.vue";
+import FollowButton from "@/components/ui/follow/FollowButton.vue";
 
 const authorProfile = ref({});
 const auth = useAuth();

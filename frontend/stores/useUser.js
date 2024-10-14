@@ -18,9 +18,7 @@ export const useUser = defineStore(
         },
       );
       if (data.value) {
-        console.log("useUser data: ", data.value);
         users.value = data.value;
-        console.log("useUser users: ", users);
       }
       if (error.value) {
         console.log(error.value);
@@ -44,7 +42,7 @@ export const useUser = defineStore(
           );
           const user = users.value.find((profile) => profile.id == profileId);
           user.is_followed = res.is_followed;
-          console.log("you are trying to follow", user);
+          user.followers++;
         } catch (err) {
           console.error(err);
         }
@@ -67,7 +65,7 @@ export const useUser = defineStore(
           );
           const user = users.value.find((profile) => profile.id == profileId);
           user.is_followed = res.is_followed;
-          console.log("you are trying to unfollow", user);
+          user.followers--;
         } catch (err) {
           console.error(err);
         }

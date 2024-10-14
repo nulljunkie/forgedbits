@@ -1,9 +1,7 @@
 <template>
-  <div class="container sm:max-w-6xl mx-auto px-4">
-    <footer class="text-gray-700">
-      <div
-        class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between"
-      >
+  <div class="sticky top-20">
+    <footer>
+      <div class="text-center">
         <span class="text-sm text-gray-500 sm:text-center"
           >© 2024
           <NuxtLink class="hover:underline hover:text-black" to="/"
@@ -11,29 +9,27 @@
           >
           . All Rights Reserved.
         </span>
-        <ul
-          class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 sm:mt-0"
-        >
+        <ul class="mt-2 flex items-center justify-evenly text-gray-600 text-xs">
           <li>
-            <NuxtLink class="p-2 hover:text-gray-700" to="/">Home</NuxtLink>
+            <NuxtLink to="/">Home</NuxtLink>
           </li>
           <li>
-            <NuxtLink class="p-2 hover:text-gray-700" to="/posts/create"
+            <NuxtLink class="hover:underline" to="/posts/create"
               >Write</NuxtLink
             >
           </li>
           <li v-if="!auth.user">
-            <NuxtLink class="p-2 hover:text-gray-700" to="/auth/login"
+            <NuxtLink class="hover:underline" to="/auth/login"
               >Sign in</NuxtLink
             >
           </li>
           <li v-if="!auth.user">
-            <NuxtLink class="p-2 hover:text-gray-700" to="/auth/register"
+            <NuxtLink class="hover:underline" to="/auth/register"
               >Sign up</NuxtLink
             >
           </li>
-          <li v-else @click="auth.logout" class="p-2 mx-2 hover:text-gray-700">
-            <NuxtLink to="/auth/login">logout</NuxtLink>
+          <li v-else @click="auth.logout">
+            <NuxtLink class="hover:underline" to="/auth/login">logout</NuxtLink>
           </li>
         </ul>
       </div>

@@ -4,5 +4,10 @@
     <NuxtRouteAnnouncer />
     <NuxtPage />
     <UNotifications />
+    <Chat />
   </NuxtLayout>
 </template>
+
+<script setup>
+import Chat from "@/components/chat/Chat.vue";
+</script>
