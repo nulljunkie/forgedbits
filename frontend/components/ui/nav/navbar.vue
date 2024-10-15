@@ -44,7 +44,7 @@
             </button>
           </li>
 
-          <UiNavNotification />
+          <NotificationBell v-if="auth.user" />
           <UiNavDropdown v-if="auth.user" />
         </ul>
       </nav>

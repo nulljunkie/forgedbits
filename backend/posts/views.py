@@ -1,10 +1,7 @@
-from typing import override
-
 from django.db.models import Q
 from rest_framework import generics, parsers, status, viewsets
-from rest_framework.exceptions import ParseError
-from rest_framework.generics import GenericAPIView, ListAPIView, mixins
-from rest_framework.parsers import JSONParser
+from rest_framework.generics import ListAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,9 +9,13 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from users.models import Profile
 
 from .models import Post, Tag
-from .permissions import IsOwnerOrReadOnly, ReadOnlyWriteOnlyByAuthor
+from .permissions import ReadOnlyWriteOnlyByAuthor
 from .serializers import (PostSerializer, SavedPostsSerializer,
                           SearchResultSerializer, TagSerializer)
+
+
+class PostPagination(PageNumberPagination):
+    page_size = 5
 
 
 class CreatePostView(viewsets.ModelViewSet):
@@ -26,31 +27,6 @@ class CreatePostView(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         print(request.data)
         return super().create(request, *args, **kwargs)
-
-# class CreatePostView(APIView):
-#     authentication_classes = [
-#         JWTAuthentication,
-#     ]
-#     permission_classes = [
-#         IsAuthenticated,
-#     ]
-#
-#     http_method_names = ["post"]
-#
-#     def post(self, request):
-#         try:
-#             data = JSONParser().parse(request)
-#             serializer = PostSerializer(data=data, context={'request': request})
-#             if serializer.is_valid(raise_exception=True):
-#                 print(serializer.validated_data)
-#                 serializer.save()
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#         except ParseError:
-#             return Response(
-#                 {"error": "parser error"}, status=status.HTTP_400_BAD_REQUEST
-#             )
 
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -73,12 +49,18 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class PostListView(APIView):
+# class PostListView(APIView):
+#
+#     def get(self, request):
+#         posts = Post.objects.all()
+#         serializer = PostSerializer(posts, many=True, context={'request': request})
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def get(self, request):
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class PostListView(ListAPIView):
+    authentication_classes = [JWTAuthentication, ]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    pagination_class = PostPagination
 
 
 class TagsView(generics.ListAPIView):

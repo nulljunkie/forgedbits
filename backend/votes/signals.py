@@ -12,7 +12,7 @@ def create_notification(sender, instance, created, **kwargs):
         if instance.type == 1:
 
             # user who voted
-            voter = instance.user.username
+            voter = instance.user
 
             # user who will receive the notification
             notification_receiver = instance.content_object.author
@@ -20,7 +20,8 @@ def create_notification(sender, instance, created, **kwargs):
             content = str(instance.content_object)
             subject = str(instance.content_type.name)
 
-            message = f'{voter} liked your {subject} \"{content}\"'
-            print(notification_receiver.username, '<==', message)
-
-            Notification.objects.create(user=notification_receiver, message=message)
+            message = f'{voter.username} liked your {subject} \"{content}\"'
+            
+            if (voter != notification_receiver):
+                print(notification_receiver.username, '<==', message)
+                Notification.objects.create(user=notification_receiver, sender=voter, message=message)

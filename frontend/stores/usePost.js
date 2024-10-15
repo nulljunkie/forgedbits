@@ -10,7 +10,26 @@ export const usePost = defineStore("post", () => {
   const myPosts = ref([]);
   const currentPost = ref(null);
 
-  const getAllPosts = () => {};
+  const nextPage = ref(null);
+
+  const getAllPosts = async () => {
+    const { data: posts } = await useFetch("http://127.0.0.1:8000/api/posts/", {
+      headers: auth.user ? { Authorization: `Bearer ${auth.accessToken}` } : {},
+    });
+    allPosts.value.push(...posts.value.results);
+    nextPage.value = posts.value.next;
+  };
+
+  const getNextPosts = async () => {
+    if (nextPage.value) {
+      const posts = await $fetch(nextPage.value, {
+        headers: auth.user
+          ? { Authorization: `Bearer ${auth.accessToken}` }
+          : {},
+      });
+      console.log("next posts", posts);
+    }
+  };
 
   const getPost = async (postId) => {
     const { data, error } = await useFetch(`${API_URL}post/${postId}`, {
@@ -81,6 +100,7 @@ export const usePost = defineStore("post", () => {
     getMyPosts,
     getAllPosts,
     deleteMyPost,
+    getNextPosts,
     updateMyPost,
   };
 });
