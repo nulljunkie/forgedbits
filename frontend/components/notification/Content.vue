@@ -22,11 +22,10 @@
             {{ item.message }}
           </p>
           <p class="text-gray-500 font-thin text-xs">
-            {{ item.created_at }}
+            {{ formatDate(new Date(item.created_at)) }}
           </p>
         </div>
       </div>
-      <!-- <div class="text-gray-700">count: {{ notifications.count }}</div> -->
     </div>
 
     <NotificationEmpty v-else />
@@ -36,39 +35,10 @@
 <script setup>
 import { useAuth } from "#imports";
 import { useNotification } from "#imports";
+import { formatDate } from "@/utils/dateFns.js";
 
 const auth = useAuth();
 const notificationStore = useNotification();
 
 await notificationStore.getNotifications();
-
-// const { data: notifications } = await useFetch(
-//   "http://127.0.0.1:8000/api/notifications/",
-//   {
-//     headers: {
-//       Authorization: `Bearer ${auth.accessToken}`,
-//     },
-//   },
-// );
-//
-// const read = async (id) => {
-//   const item = notifications.value.items.find((obj) => obj.id === id);
-//   if (item && !item.is_read) {
-//     console.log("reading item", item.id);
-//     item.is_read = true;
-//
-//     const response = await $fetch(
-//       `http://127.0.0.1:8000/api/notifications/${id}/`,
-//       {
-//         method: "patch",
-//         headers: {
-//           Authorization: `Bearer ${auth.accessToken}`,
-//         },
-//         body: {
-//           is_read: true,
-//         },
-//       },
-//     );
-//   }
-// };
 </script>
