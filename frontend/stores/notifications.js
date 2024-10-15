@@ -7,23 +7,26 @@ export const useNotification = defineStore("notification", () => {
   const items = ref([]);
   const unread_count = ref(0);
 
-  //TODO:  1. create websocket
-  //       2. add the recived item to items and inc unread_count and play bell sound
-  //
-  //
+  const playNotificationSound = () => {
+    const audio = new Audio("/sounds/alert.wav");
+    audio
+      .play()
+      .catch((error) => console.error("error playing sound: ", error));
+  };
 
   //NOTE: websocket create upon the init of this fucking pinia store
   const socket = new WebSocket(
     `ws://localhost:8001/ws/notifications/?token=${auth.accessToken}`,
   );
 
-  socket.onmessage = function (event) {
-    // let data = JSON.parse(event.data);
-    console.log("data from websocket: ", data);
-    // items.value.push(data);
-    // if (!data.is_read) {
-    //   unread_count.value++;
-    // }
+  socket.onmessage = (event) => {
+    let data = JSON.parse(event.data);
+    console.log("notification from websocket: ", data.notification.message);
+    items.value.push(data.notification);
+    if (!data.notification.is_read) {
+      unread_count.value++;
+      playNotificationSound();
+    }
   };
 
   socket.onclose = function (event) {
