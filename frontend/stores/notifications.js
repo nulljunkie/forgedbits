@@ -22,7 +22,7 @@ export const useNotification = defineStore("notification", () => {
   socket.onmessage = (event) => {
     let data = JSON.parse(event.data);
     console.log("notification from websocket: ", data.notification.message);
-    items.value.push(data.notification);
+    items.value.unshift(data.notification);
     if (!data.notification.is_read) {
       unread_count.value++;
       playNotificationSound();
