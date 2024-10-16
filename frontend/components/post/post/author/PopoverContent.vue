@@ -40,12 +40,13 @@
       <div v-if="props.username != auth.user">
         <div class="flex justify-end gap-2">
           <button
+            @click="chatStore.letsChat(props.username)"
             class="py-1 px-2 inline-flex items-center text-xs font-bold rounded-lg bg-sky-500 text-gray-50 hover:bg-sky-600"
           >
             Chat
           </button>
 
-          <FollowButton :user="authorProfile" />
+          <UiFollowButton :user="authorProfile" />
         </div>
       </div>
     </section>
@@ -54,10 +55,12 @@
 
 <script setup>
 import { useAuth } from "#imports";
-import FollowButton from "@/components/ui/follow/FollowButton.vue";
+import { useChat } from "#imports";
+
+const auth = useAuth();
+const chatStore = useChat();
 
 const authorProfile = ref({});
-const auth = useAuth();
 
 const dateJoined = ref(null);
 
@@ -89,8 +92,6 @@ const { pending, error } = useLazyFetch(
         month: "short",
         year: "numeric",
       });
-
-      console.log(dateJoined.value);
     },
   },
 );

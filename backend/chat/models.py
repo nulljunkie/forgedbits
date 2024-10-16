@@ -1,31 +1,32 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from users.models import User
 
+User = get_user_model()
 
-class Room(models.Model):
-    name = models.CharField(max_length=128)
-    online = models.ManyToManyField(to=User, blank=True)
-
-    def get_online_count(self):
-        return self.online.count()
-
-    def join(self, user):
-        self.online.add(user)
-        self.save()
-
-    def leave(self, user):
-        self.online.remove(user)
-        self.save()
+class UserStatus(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_online = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.name} ({self.get_online_count()})'
+        return f"{self.user.username} - {'Online' if self.is_online else 'Offline'}"
 
 
-class Message(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    room = models.ForeignKey(to=Room, on_delete=models.CASCADE)
-    content = models.CharField(max_length=512)
+class ActiveChat(models.Model):
+    alice = models.ForeignKey(User, related_name='alice', on_delete=models.CASCADE)
+    bob = models.ForeignKey(User, related_name='bob', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Chat between {self.alice.username} and {self.bob.username}"
+
+    class Meta:
+        unique_together = ('alice', 'bob')
+
+
+class ChatMessage(models.Model):
+    chat = models.ForeignKey(ActiveChat, related_name='messages', on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.username}: {self.content} [{self.timestamp}]' 
+        return f"From {self.sender.username} at {self.timestamp}"
