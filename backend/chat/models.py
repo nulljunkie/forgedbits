@@ -11,7 +11,7 @@ class UserStatus(models.Model):
         return f"{self.user.username} - {'Online' if self.is_online else 'Offline'}"
 
 
-class ActiveChat(models.Model):
+class Chat(models.Model):
     alice = models.ForeignKey(User, related_name='alice', on_delete=models.CASCADE)
     bob = models.ForeignKey(User, related_name='bob', on_delete=models.CASCADE)
 
@@ -22,8 +22,8 @@ class ActiveChat(models.Model):
         unique_together = ('alice', 'bob')
 
 
-class ChatMessage(models.Model):
-    chat = models.ForeignKey(ActiveChat, related_name='messages', on_delete=models.CASCADE)
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, related_name='messages', on_delete=models.CASCADE)
     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)

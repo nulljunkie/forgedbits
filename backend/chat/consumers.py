@@ -2,68 +2,81 @@ import json
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
-from .models import ActiveChat, ChatMessage, UserStatus
+from .serializers import MessageSerializer
+
+User = get_user_model()
+from .models import Chat, Message
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
-        self.room_name = f'chat_{self.user.id}'
-        self.room_group_name = f'chat_{self.user.id}'
+        query_string = dict((x.split('=') for x in self.scope['query_string'].decode().split('&')))
+        chat_id = query_string.get('chat_id', None)
+        
+        if not(self.user.is_authenticated and chat_id):
+            await self.close(code=40101)
+        self.chat = await get_chat(chat_id)
+        if self.chat is None:
+            await self.close(code=40404)
+        if self.user not in (self.chat.alice, self.chat.bob):
+            await self.close(code=40404)
 
-        # Join the room group
-        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
-
-        # Set user online status
-        user_status, created = await database_sync_to_async(UserStatus.objects.get_or_create)(user=self.user)
-        user_status.is_online = True
-        await database_sync_to_async(user_status.save)()
+        self.group_name = f'chat_{chat_id}'
+        await self.channel_layer.group_add(self.group_name, self.channel_name)
 
         await self.accept()
 
-    async def disconnect(self, close_code):
-        # Leave room group
-        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+    async def receive(self, text_data=None, bytes_data=None):
+        data = json.loads(text_data)
+        print('data :', data)
+        sender = data.get('sender', None)
+        if not sender:
+            return
+        sender_instance = await get_user(sender)
+        message = data.get('message', None)
+        if sender_instance and message:
+            if (self.chat):
+                message_instance =await create_message(self.chat, sender_instance, message)
+                if message_instance:
+                    serializer = MessageSerializer(message_instance)
+                    await self.channel_layer.group_send(self.group_name, {
+                        'type': 'send_message',
+                        'message': serializer.data
+                    })
 
-        # Set user offline status
-        user_status = await database_sync_to_async(UserStatus.objects.get)(user=self.user)
-        user_status.is_online = False
-        await database_sync_to_async(user_status.save)()
 
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        receiver_id = text_data_json['receiver_id']
-
-        # Get or create the chat
-        receiver = await database_sync_to_async(User.objects.get)(id=receiver_id)
-        chat, created = await database_sync_to_async(ActiveChat.objects.get_or_create)(
-            user1=self.user,
-            user2=receiver
-        )
-
-        # Create and save the chat message
-        chat_message = ChatMessage(chat=chat, sender=self.user, message=message)
-        await database_sync_to_async(chat_message.save)()
-
-        # Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message,
-                'sender': self.user.username,
-            }
-        )
-
-    async def chat_message(self, event):
-        message = event['message']
-        sender = event['sender']
-
-        # Send message to WebSocket
+    async def send_message(self, event):
         await self.send(text_data=json.dumps({
-            'message': message,
-            'sender': sender,
+            'message': event['message'],
         }))
+
+
+@database_sync_to_async
+def get_chat(id):
+    try: 
+        return Chat.objects.prefetch_related('alice', 'bob').get(pk=id)
+    except Chat.DoesNotExist:
+        return None
+
+
+@database_sync_to_async
+def create_message(chat, sender, message):
+    if (chat):
+        return Message.objects.create(chat=chat, sender=sender, message=message)
+    return None
+
+@database_sync_to_async
+def get_user(username):
+    try: 
+        return User.objects.get(pk=username)
+    except User.DoesNotExist:
+        return None
+
+
+
+
+
+

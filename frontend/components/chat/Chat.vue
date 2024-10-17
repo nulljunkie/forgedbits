@@ -31,4 +31,6 @@ import { useChat } from "#imports";
 
 const profile = useProfile();
 const chatStore = useChat();
+
+await chatStore.getMyChats();
 </script>

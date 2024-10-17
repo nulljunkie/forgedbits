@@ -28,8 +28,6 @@ export const useProfile = defineStore(
     const get = async () => {
       if (auth.user)
         try {
-          // NOTE: request's error are passed to error
-          // not error in catch below, those are for try block errors
           const { data, error } = await useFetch(`${API_URL}profile/`, {
             headers: {
               Authorization: `Bearer ${auth.accessToken}`,
@@ -37,7 +35,6 @@ export const useProfile = defineStore(
           });
 
           if (data.value) {
-            console.log(data.value);
             setProfile(data.value);
           } else if (error.value) {
             console.log("error.value for useFetch profile.get");
@@ -83,7 +80,6 @@ export const useProfile = defineStore(
       if (birth_date.value) {
         body.birth_date = birth_date.value;
       }
-      console.log("body: ", body);
       try {
         const response = await $fetch(
           "http://127.0.0.1:8000/api/users/profile/upload/",
@@ -124,7 +120,6 @@ export const useProfile = defineStore(
           formData.append("banner", banner, "banner.jpeg");
         }
 
-        console.log("formData (profile store btw): ", formData);
         const res = await $fetch(`${API_URL}profile/upload/`, {
           method: "patch",
           headers: {
@@ -132,10 +127,6 @@ export const useProfile = defineStore(
           },
           body: formData,
         });
-
-        // console.log(res);
-        // image.value = res.image;
-        // banner.value = res.banner;
 
         setProfile(res);
       } catch (err) {

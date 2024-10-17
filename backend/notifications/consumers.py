@@ -5,22 +5,15 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 class NotificationConsumer(AsyncWebsocketConsumer):
 
-    groups = []
-
     async def connect(self):
 
         if self.scope['user'].is_authenticated:
 
             self.channel_name = self.scope["user"].username
-            self.groups.append(self.channel_name)
-
-            print(self.channel_name)
-            print(self.groups)
 
             # Add user to the group (each user has a unique channel group)
             await self.channel_layer.group_add(
                 self.channel_name, 
-                # 'imad',
                 self.channel_name
             )
 
@@ -33,7 +26,6 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
             await self.channel_layer.group_send(
                 self.channel_name,  
-                # 'imad',
                 {
                     'type': 'notify',  # This will trigger the `notify` method
                     'message': 'fucking idiot, you got this'  # The message content
@@ -47,7 +39,6 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         # Remove user from their channel group on disconnect
         await self.channel_layer.group_discard(
             self.channel_name,
-            # 'imad',
             self.channel_name
         )
 
