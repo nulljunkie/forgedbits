@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row flex-wrap gap-2 p-2 w-max">
+  <div class="flex flex-row flex-wrap gap-2 p-2">
     <div v-for="(tag, index) in props.tags" :key="index">
       <NuxtLink :to="{ name: 'posts-tag-slug', params: { slug: tag.name } }">
         <span

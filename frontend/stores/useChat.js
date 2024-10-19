@@ -6,56 +6,90 @@ export const useChat = defineStore("chat", () => {
 
   const showChat = ref(false);
   const showChatList = ref(true);
-  const selectedChatId = ref(0);
+  const selectedChat = ref({});
 
-  const myChats = ref([]); // [messages[id, message, timestamp, sender, chat], socket, chatId, alice, bob]
+  const isConversationOpen = computed(
+    () => !showChatList.value && selectedChat.value,
+  );
+
+  const myChats = ref([]);
+
+  const playMessageSound = () => {
+    const audio = new Audio("/sounds/message.mp3");
+    audio
+      .play()
+      .catch((error) => console.error("error playing chat sound: ", error));
+  };
 
   const getMyChats = async () => {
-    if (auth.user) {
-      const { data } = useLazyFetch("http://127.0.0.1:8000/api/chat/", {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      });
-
-      if (data.value) {
-        data.value.forEach((obj) => {
-          const chat = {};
-          ({ id: chat.chatId, alice: chat.alice, bob: chat.bob } = obj);
-          // get old messages
-          const messages = $fetch(
-            `http://127.0.0.1:8000/api/chat/messages/${chat.chatId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${auth.accessToken}`,
-              },
+    myChats.value = [];
+    if (auth.user && process.client) {
+      try {
+        const { data, error } = await useFetch(
+          "http://127.0.0.1:8000/api/chat/",
+          {
+            headers: {
+              Authorization: `Bearer ${auth.accessToken}`,
             },
-          );
-          console.log("messages", messages);
-          //TODO: messges go to chat.messages array
-
-          chat.socket = new WebSocket(
-            `ws://127.0.0.1:8000/ws/chat/?token="${auth.accessToken}&id=${chat.chatId}`,
-          );
-          chat.socket.onmessage = (event) => {
-            console.log(`Message from WebSocket ${chat.chatId}:`, event.data);
-          };
-          chat.socket.onopen = () => {
-            console.log(`WebSocket ${chat.chatId} connected`);
-          };
-
-          chat.socket.onclose = () => {
-            console.log(`WebSocket ${chat.chatId} disconnected`);
-          };
-          chat.socket.onerror = (error) => {
-            console.error(`WebSocket ${chat.chatId} error:`, error);
-          };
-          myChats.value.push(chat);
-        });
+            onResponse({ response }) {
+              if (response._data.length) {
+                response._data.forEach((obj, index) => {
+                  const chat = { messages: [] };
+                  chat.chatId = obj.id;
+                  chat.user = obj.user.username;
+                  chat.image = obj.user.image;
+                  chat.ws = handleWebSocket(obj.id, index);
+                  myChats.value.push(chat);
+                });
+              }
+            },
+          },
+        );
+      } catch (error) {
+        console.error("Error fetching chats:", error);
       }
     }
   };
 
+  const handleWebSocket = (id, index) => {
+    const ws = new WebSocket(
+      `ws://127.0.0.1:8001/ws/chat/?token=${encodeURIComponent(auth.accessToken)}&chat_id=${encodeURIComponent(id)}`,
+    );
+
+    ws.onopen = () => {
+      console.log(`WS for chat #${id} connected`);
+    };
+
+    ws.onclose = () => {
+      console.log(`WS for chat #${id} disconnected`);
+    };
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      myChats.value[index].messages.unshift(data.message);
+      playMessageSound();
+    };
+
+    return ws;
+  };
+
+  const getOldMessages = async () => {
+    if (auth.user && selectedChat.value.chatId) {
+      const messages = await $fetch(
+        `http://127.0.0.1:8000/api/chat/messages/${selectedChat.value.chatId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        },
+      );
+      console.log("messages", messages);
+      //TODO: implement a caching mechanism
+      selectedChat.value.messages = [...messages];
+    }
+  };
+
+  // FIXME: image and username
   const letsChat = async (user) => {
     if (!auth.user) {
       navigateTo("/auth/login");
@@ -65,7 +99,7 @@ export const useChat = defineStore("chat", () => {
         console.log("let's chat", chat);
         showChat.value = true;
         showChatList.value = false;
-        selectedChatId.value = chat.chatId;
+        selectedChat.value = chat;
       } else {
         const response = await $fetch("http://127.0.0.1:8000/api/chat/", {
           method: "post",
@@ -83,13 +117,13 @@ export const useChat = defineStore("chat", () => {
         const chat = { messages: [] };
         ({ id: chat.chatId, alice: chat.alice, bob: chat.bob } = response);
         chat.socket = new WebSocket(
-          `ws://127.0.0.1:8000/ws/chat/?token="${auth.accessToken}&id=${chat.chatId}`,
+          `ws://127.0.0.1:8001/ws/chat/?token=${auth.accessToken}&chat_id=${chat.chatId}`,
         );
         console.log("your chat is ready ", chat);
         myChats.value.unshift(chat);
         showChat.value = true;
         showChatList.value = false;
-        selectedChatId.value = chat.chatId;
+        selectedChat.value = chat;
       }
     }
   };
@@ -103,25 +137,28 @@ export const useChat = defineStore("chat", () => {
   const goBackToChatList = () => {
     if (auth.user) {
       showChatList.value = true;
-      selectedChatId.value = 0;
+      selectedChat.value = {};
     }
   };
 
-  const selectChat = (id) => {
+  const selectChat = (chat) => {
     if (auth.user) {
-      selectedChatId.value = id;
+      selectedChat.value = chat;
       showChatList.value = false;
     }
   };
 
   return {
     showChat,
+    myChats,
     toggleChat,
     showChatList,
-    selectedChatId,
+    selectedChat,
     goBackToChatList,
+    getOldMessages,
     selectChat,
     getMyChats,
     letsChat,
+    isConversationOpen,
   };
 });

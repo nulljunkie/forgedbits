@@ -12,9 +12,6 @@ export default {
         blue_1: "#3b49df",
       },
     },
-    fontFamily: {
-      rubik: ["Rubik"],
-    },
 
     // screens: {
     //   sm: "576px",

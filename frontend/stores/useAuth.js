@@ -9,13 +9,13 @@ export const useAuth = defineStore("auth", () => {
   const authenticating = ref(false);
 
   const user = useCookie("USER", {
-    maxAge: 60 * 60,
+    maxAge: 60 * 60 * 12,
   });
   const accessToken = useCookie("JWT_ACCESS_TOKEN", {
-    maxAge: 60 * 60,
+    maxAge: 60 * 60 * 12,
   });
   const refreshToken = useCookie("JWT_REFRESH_TOKEN", {
-    maxAge: 60 * 60,
+    maxAge: 60 * 60 * 12,
   });
 
   const errorMessage = ref("");

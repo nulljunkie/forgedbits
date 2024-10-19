@@ -13,6 +13,7 @@ from .models import Chat, Message
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope['user']
+
         query_string = dict((x.split('=') for x in self.scope['query_string'].decode().split('&')))
         chat_id = query_string.get('chat_id', None)
         
@@ -39,7 +40,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = data.get('message', None)
         if sender_instance and message:
             if (self.chat):
-                message_instance =await create_message(self.chat, sender_instance, message)
+                message_instance = await create_message(self.chat, sender_instance, message)
                 if message_instance:
                     serializer = MessageSerializer(message_instance)
                     await self.channel_layer.group_send(self.group_name, {
@@ -74,9 +75,4 @@ def get_user(username):
         return User.objects.get(pk=username)
     except User.DoesNotExist:
         return None
-
-
-
-
-
 
