@@ -94,9 +94,8 @@ export const useChat = defineStore("chat", () => {
     if (!auth.user) {
       navigateTo("/auth/login");
     } else {
-      const chat = myChats.value.find((obj) => obj.reciever === user);
+      const chat = myChats.value.find((obj) => obj.user === user);
       if (chat) {
-        console.log("let's chat", chat);
         showChat.value = true;
         showChatList.value = false;
         selectedChat.value = chat;
@@ -112,18 +111,15 @@ export const useChat = defineStore("chat", () => {
           },
         });
 
-        console.log("chat created", response);
-        // response should be {chatId:int, alice:username, bob:userame}
         const chat = { messages: [] };
-        ({ id: chat.chatId, alice: chat.alice, bob: chat.bob } = response);
-        chat.socket = new WebSocket(
-          `ws://127.0.0.1:8001/ws/chat/?token=${auth.accessToken}&chat_id=${chat.chatId}`,
-        );
-        console.log("your chat is ready ", chat);
+        chat.chatId = response.id;
+        chat.user = response.user.username;
+        chat.image = response.user.image;
+        chat.ws = handleWebSocket(response.id, 0);
         myChats.value.unshift(chat);
+        selectedChat.value = chat;
         showChat.value = true;
         showChatList.value = false;
-        selectedChat.value = chat;
       }
     }
   };
@@ -131,6 +127,8 @@ export const useChat = defineStore("chat", () => {
   const toggleChat = () => {
     if (auth.user) {
       showChat.value = !showChat.value;
+    } else {
+      navigateTo("/auth/login");
     }
   };
 
