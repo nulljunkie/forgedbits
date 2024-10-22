@@ -26,7 +26,7 @@ class MessageListView(generics.ListAPIView):
     serializer_class = MessageSerializer
 
     def list(self, request, *args, **kwargs):
-        queryset = Message.objects.filter(chat=kwargs['pk'])
+        queryset = Message.objects.filter(chat=kwargs['pk']).order_by('-timestamp')
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
