@@ -7,9 +7,10 @@ from django.urls import path
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 django_asgi_app = get_asgi_application()
 
-from chat.consumers import ChatConsumer
-from notifications.consumers import NotificationConsumer
-from notifications.middlewares import JwtAuthMiddleware
+if django_asgi_app:
+    from chat.consumers import ChatConsumer
+    from notifications.consumers import NotificationConsumer
+    from notifications.middlewares import JwtAuthMiddleware
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),  # WSGI for HTTP requests

@@ -26,7 +26,6 @@ class Chat(models.Model):
     def clean(self):
         if self.alice == self.bob:
             raise ValidationError('A user cannot send a friend request to themselves.')
-        # Sort the sender and receiver based on their IDs to avoid (alice, bob) and (bob, alice) as separate entries
         if self.alice.pk > self.bob.pk:
             self.alice, self.bob = self.bob, self.alice
         super().clean()

@@ -29,7 +29,7 @@ const auth = useAuth();
 const notifications = ref([]);
 
 const socket = new WebSocket(
-  `ws://localhost:8001/ws/notifications/?token=${auth.accessToken}`,
+  `ws://localhost:8000/ws/notifications/?token=${auth.accessToken}`,
 );
 
 socket.onmessage = function (event) {

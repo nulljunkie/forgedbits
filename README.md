@@ -1,16 +1,27 @@
-```bash
-source .venv/bin/activate
+## Screenshot
 
-sudo docker run -d -p 6379:6379 redis
+![Screenshot](./.assets/images/screenshot.png)
 
-cd backend
-python manage.py runserver 8000
-uvicorn backend.asgi:application --port 8001
+## Getting Started
 
-cd frontend
-npm run dev
-```
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-## TODO
+### Prerequisites
 
-1. fix notification bell, sound might work for both parties of the notification process at the same time
+- Docker and Docker Compose
+- Python (for the backend)
+- Node.js and npm (for the frontend)
+
+### Installation & Running
+
+    ```bash
+    docker compose up
+
+    cd backend
+    pip install -r requirements.txt
+    python run.py
+
+    cd frontend
+    npm install
+    npm run dev
+    ```

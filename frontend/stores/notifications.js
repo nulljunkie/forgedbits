@@ -16,7 +16,7 @@ export const useNotification = defineStore("notification", () => {
 
   //NOTE: websocket create upon the init of this fucking pinia store
   const socket = new WebSocket(
-    `ws://localhost:8001/ws/notifications/?token=${auth.accessToken}`,
+    `ws://localhost:8000/ws/notifications/?token=${auth.accessToken}`,
   );
 
   socket.onmessage = (event) => {

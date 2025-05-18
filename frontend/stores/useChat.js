@@ -53,7 +53,7 @@ export const useChat = defineStore("chat", () => {
 
   const handleWebSocket = (id, index) => {
     const ws = new WebSocket(
-      `ws://127.0.0.1:8001/ws/chat/?token=${encodeURIComponent(auth.accessToken)}&chat_id=${encodeURIComponent(id)}`,
+      `ws://127.0.0.1:8000/ws/chat/?token=${encodeURIComponent(auth.accessToken)}&chat_id=${encodeURIComponent(id)}`,
     );
 
     ws.onopen = () => {
