@@ -14,14 +14,14 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Installation & Running
 
-    ```bash
-    docker compose up
+```bash
+docker compose up
 
-    cd backend
-    pip install -r requirements.txt
-    python run.py
+cd backend
+pip install -r requirements.txt
+python run.py
 
-    cd frontend
-    npm install
-    npm run dev
-    ```
+cd frontend
+npm install
+npm run dev
+```
